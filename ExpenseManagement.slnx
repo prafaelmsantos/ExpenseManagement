@@ -1,0 +1,23 @@
+<Solution>
+  <Folder Name="/0_Domain/">
+    <Project Path="src/ExpenseManagement.Domain/ExpenseManagement.Domain.csproj" />
+  </Folder>
+  <Folder Name="/1_Application/">
+    <Project Path="src/ExpenseManagement.Application/ExpenseManagement.Application.csproj" />
+  </Folder>
+  <Folder Name="/2_Infrastructure/">
+    <Project Path="src/ExpenseManagement.Persistence/ExpenseManagement.Persistence.csproj" />
+  </Folder>
+  <Folder Name="/3_Presentation/">
+    <Project Path="src/ExpenseManagement.API/ExpenseManagement.API.csproj" />
+  </Folder>
+  <Folder Name="/4_Client/">
+    <Project Path="src/ExpenseManagement.App/ExpenseManagement.App.esproj">
+      <Build />
+      <Deploy />
+    </Project>
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="../../../Documents/.NET Projects/AutoMoreira/.editorconfig" />
+  </Folder>
+</Solution>
