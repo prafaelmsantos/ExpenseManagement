@@ -18,10 +18,12 @@
 
             entity.Property(x => x.UserName)
                 .HasColumnName("user_name")
+                .HasMaxLength(256)
                 .IsRequired(false);
 
             entity.Property(x => x.NormalizedUserName)
                 .HasColumnName("normalized_user_name")
+                .HasMaxLength(256)
                 .IsRequired(false);
 
             entity.Property(x => x.Email)
@@ -31,6 +33,7 @@
 
             entity.Property(x => x.NormalizedEmail)
                 .HasColumnName("normalized_email")
+                .HasMaxLength(256)
                 .IsRequired(false);
 
             entity.Property(x => x.EmailConfirmed)

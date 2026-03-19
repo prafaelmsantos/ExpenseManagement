@@ -18,6 +18,7 @@
 
             entity.Property(x => x.Name)
                 .HasColumnName("name")
+                .HasMaxLength(256)
                 .IsRequired(false);
 
             entity.Property(x => x.IsDefault)
@@ -27,6 +28,7 @@
 
             entity.Property(x => x.NormalizedName)
                 .HasColumnName("normalized_name")
+                .HasMaxLength(256)
                 .IsRequired(false);
 
             entity.Property(x => x.ConcurrencyStamp)

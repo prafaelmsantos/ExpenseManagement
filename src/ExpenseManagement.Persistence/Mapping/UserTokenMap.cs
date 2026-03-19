@@ -23,7 +23,6 @@
             entity.Property(x => x.Value)
                 .HasColumnName("value")
                 .IsRequired(false);
-
         }
     }
 }

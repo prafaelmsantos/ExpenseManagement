@@ -14,10 +14,12 @@
 
             entity.Property(x => x.LoginProvider)
                 .HasColumnName("login_provider")
+                .HasMaxLength(128)
                 .IsRequired();
 
             entity.Property(x => x.ProviderKey)
                 .HasColumnName("provider_key")
+                .HasMaxLength(128)
                 .IsRequired();
 
             entity.Property(x => x.ProviderDisplayName)
