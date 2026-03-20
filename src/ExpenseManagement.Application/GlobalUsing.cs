@@ -1,4 +1,5 @@
 ﻿global using ExpenseManagement.Application.Dtos;
+global using ExpenseManagement.Application.Dtos.Response;
 global using ExpenseManagement.Application.Interfaces.Services;
 global using ExpenseManagement.Application.Mappers;
 global using ExpenseManagement.Application.Options.Jwt;

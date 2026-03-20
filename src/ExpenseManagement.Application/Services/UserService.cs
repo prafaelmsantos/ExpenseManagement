@@ -49,7 +49,7 @@
             return user!;
         }
 
-        public async Task<UserDTO> CreateUserAsync(UserDTO userDTO)
+        public async Task<UserDTO> AddUserAsync(UserDTO userDTO)
         {
             User? user = await _userManager.FindByNameAsync(userDTO.UserName);
 
@@ -68,20 +68,6 @@
 
             Validator.New()
                .When(!addRoleResult.Succeeded, "Erro ao tentar associar a role ao utilizador.")
-               .TriggerBadRequestExceptionIfExist();
-
-            return user.ToUserDTO();
-        }
-
-        public async Task<UserDTO> UpdateUserAsync(UserDTO userDTO)
-        {
-            User user = await GetUserByUserNameAsync(userDTO.UserName);
-
-            user.Update(firstName: userDTO.FirstName, lastName: userDTO.LastName);
-            IdentityResult userResult = await _userManager.UpdateAsync(user);
-
-            Validator.New()
-               .When(!userResult.Succeeded, "Erro ao tentar atualizar o utilizador.")
                .TriggerBadRequestExceptionIfExist();
 
             return user.ToUserDTO();
@@ -106,6 +92,60 @@
                    .When(!addRoleResult.Succeeded, "Erro ao tentar associar a role ao utilizador.")
                    .TriggerBadRequestExceptionIfExist();
             }
+        }
+
+        public async Task<UserDTO> UpdateUserAsync(UserDTO userDTO)
+        {
+            User user = await GetUserByUserNameAsync(userDTO.UserName);
+
+            user.Update(firstName: userDTO.FirstName, lastName: userDTO.LastName);
+            IdentityResult userResult = await _userManager.UpdateAsync(user);
+
+            Validator.New()
+               .When(!userResult.Succeeded, "Erro ao tentar atualizar o utilizador.")
+               .TriggerBadRequestExceptionIfExist();
+
+            return user.ToUserDTO();
+        }
+
+        public async Task<List<BaseResponseDTO>> DeleteUsersAsync(List<Guid> userIds)
+        {
+            List<BaseResponseDTO> internalBaseResponseDTOs = [];
+
+            foreach (Guid userId in userIds)
+            {
+                BaseResponseDTO internalBaseResponseDTO = new() { Id = userId, Success = false };
+                try
+                {
+                    User? user = await _userManager.FindByIdAsync(userId.ToString());
+
+                    if (user is not null)
+                    {
+                        IdentityResult resultDelete = await _userManager.DeleteAsync(user);
+
+                        if (resultDelete.Succeeded)
+                        {
+                            internalBaseResponseDTO.Success = resultDelete.Succeeded;
+                        }
+                        else
+                        {
+                            internalBaseResponseDTO.Message = "Erro ao tentar apagar o utilizador.";
+                        }
+                    }
+                    else
+                    {
+                        internalBaseResponseDTO.Message = "Utilizador não encontrado.";
+                    }
+                }
+                catch (Exception)
+                {
+                    internalBaseResponseDTO.Message = "Erro ao tentar apagar o utilizador.";
+                }
+
+                internalBaseResponseDTOs.Add(internalBaseResponseDTO);
+            }
+
+            return internalBaseResponseDTOs;
         }
         #endregion
     }

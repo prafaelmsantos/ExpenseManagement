@@ -1,6 +1,4 @@
-﻿using ExpenseManagement.Application.Interfaces.Services;
-
-namespace ExpenseManagement.API
+﻿namespace ExpenseManagement.API
 {
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public class Program
@@ -19,9 +17,7 @@ namespace ExpenseManagement.API
 
                 var app = builder.Build();
                 ConfigureApp(app);
-                //await InitialSyncAsync(app);
-
-                //await RunMigrationsAsync(app);
+                await HandleAsync(app);
 
                 await app.RunAsync();
             }
@@ -97,29 +93,33 @@ namespace ExpenseManagement.API
             return host;
         }
 
-        private static async Task RunMigrationsAsync(WebApplication app)
+        private static async Task HandleAsync(WebApplication app)
         {
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                var context = services.GetRequiredService<AppDbContext>();
-                Console.WriteLine("Update database started");
-                context.Database.SetCommandTimeout(TimeSpan.FromHours(2));
-                await context.Database.MigrateAsync();
-                Console.WriteLine("Update database ended");
+
+                //await RunMigrationsAsync(services);
+                await InitialSyncAsync(services);
             }
         }
 
-        private static async Task InitialSyncAsync(WebApplication app)
+        private static async Task RunMigrationsAsync(IServiceProvider services)
         {
-            using (var scope = app.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                var initialSyncService = services.GetRequiredService<IInitialSyncService>();
-                Console.WriteLine("Update database started");
-                await initialSyncService.AddDefaultUserRolesAsync();
-                Console.WriteLine("Update database ended");
-            }
+            var context = services.GetRequiredService<AppDbContext>();
+            Console.WriteLine("Update database started");
+            context.Database.SetCommandTimeout(TimeSpan.FromHours(2));
+            await context.Database.MigrateAsync();
+            Console.WriteLine("Update database ended");
+
+        }
+
+        private static async Task InitialSyncAsync(IServiceProvider services)
+        {
+            var initialSyncService = services.GetRequiredService<IInitialSyncService>();
+            Console.WriteLine("Sync users and roles started");
+            await initialSyncService.AddDefaultUserRolesAsync();
+            Console.WriteLine("Sync users and roles ended");
         }
     }
 }

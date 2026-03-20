@@ -7,6 +7,7 @@
         {
             services.AddJWTSettingsOptions();
             services.AddJwtBearerOptions();
+            services.AddUserDefaultSettingsOptions();
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
@@ -33,6 +34,13 @@
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer();
+        }
+
+        private static void AddUserDefaultSettingsOptions(this IServiceCollection services)
+        {
+            services
+                .ConfigureOptions<UserDefaultSettingsSetup>()
+                .AddOptionsWithValidateOnStart<UserDefaultSettings, UserDefaultSettingsValidator>();
         }
         #endregion
     }
