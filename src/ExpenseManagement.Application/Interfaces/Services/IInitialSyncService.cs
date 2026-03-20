@@ -2,6 +2,6 @@
 {
     public interface IInitialSyncService
     {
-        Task AddDefaultUserRoleAsync();
+        Task AddDefaultUserRolesAsync();
     }
 }

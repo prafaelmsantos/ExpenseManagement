@@ -5,7 +5,6 @@
         public string? FirstName { get; private set; }
         public string? LastName { get; private set; }
         public bool DarkMode { get; private set; }
-        public bool IsDefault { get; private set; }
 
         public virtual ICollection<UserClaim> Claims { get; private set; } = [];
         public virtual ICollection<UserLogin> Logins { get; private set; } = [];
@@ -14,20 +13,24 @@
 
         public User() { }
 
-        public User(string email, bool isDefault = false)
+        public User(string userName)
         {
-            Email = email;
-            UserName = email;
-            IsDefault = isDefault;
+            Email = userName;
+            UserName = userName;
         }
 
-        public User(string? firstName, string? lastName, string email, bool isDefault = false)
+        public User(string? firstName, string? lastName, string userName)
         {
             FirstName = firstName;
             LastName = lastName;
-            Email = email;
-            UserName = email;
-            IsDefault = isDefault;
+            Email = userName;
+            UserName = userName;
+        }
+
+        public void Update(string? firstName, string? lastName)
+        {
+            FirstName = firstName;
+            LastName = lastName;
         }
     }
 }

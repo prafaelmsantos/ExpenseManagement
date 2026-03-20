@@ -6,8 +6,6 @@
         public static IServiceCollection AddPersistenceServices(this IServiceCollection services)
         {
             services.AddAppSettingsOptions();
-            services.AddJWTSettingsOptions();
-            services.AddJwtBearerOptions();
 
             services.AddDbContextServices();
 
@@ -53,22 +51,6 @@
             services
                 .ConfigureOptions<AppSettingsSetup>()
                 .AddOptionsWithValidateOnStart<AppSettings, AppSettingsValidator>();
-        }
-
-        private static void AddJWTSettingsOptions(this IServiceCollection services)
-        {
-            services
-                .ConfigureOptions<JwtSettingsSetup>()
-                .AddOptionsWithValidateOnStart<JwtSettings, JwtSettingsValidator>();
-        }
-
-        private static void AddJwtBearerOptions(this IServiceCollection services)
-        {
-            services.ConfigureOptions<JwtBearerOptionsSetup>();
-
-            services
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer();
         }
 
         private static void AddDbContextServices(this IServiceCollection services)

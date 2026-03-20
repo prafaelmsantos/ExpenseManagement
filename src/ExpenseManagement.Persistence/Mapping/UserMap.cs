@@ -94,11 +94,6 @@
                 .HasDefaultValue(false)
                 .IsRequired();
 
-            entity.Property(x => x.IsDefault)
-                .HasColumnName("is_default")
-                .HasDefaultValue(false)
-                .IsRequired();
-
             entity.HasMany(e => e.Claims)
                 .WithOne(e => e.User)
                 .HasForeignKey(uc => uc.UserId)

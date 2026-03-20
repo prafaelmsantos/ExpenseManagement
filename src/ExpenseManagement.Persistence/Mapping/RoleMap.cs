@@ -21,11 +21,6 @@
                 .HasMaxLength(256)
                 .IsRequired(false);
 
-            entity.Property(x => x.IsDefault)
-                .HasColumnName("is_default")
-                .HasDefaultValue(false)
-                .IsRequired();
-
             entity.Property(x => x.NormalizedName)
                 .HasColumnName("normalized_name")
                 .HasMaxLength(256)

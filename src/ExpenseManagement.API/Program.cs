@@ -117,7 +117,7 @@ namespace ExpenseManagement.API
                 var services = scope.ServiceProvider;
                 var initialSyncService = services.GetRequiredService<IInitialSyncService>();
                 Console.WriteLine("Update database started");
-                await initialSyncService.AddDefaultUserRoleAsync();
+                await initialSyncService.AddDefaultUserRolesAsync();
                 Console.WriteLine("Update database ended");
             }
         }

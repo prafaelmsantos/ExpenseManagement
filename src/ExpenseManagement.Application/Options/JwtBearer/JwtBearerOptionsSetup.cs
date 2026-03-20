@@ -1,6 +1,4 @@
-﻿using System.Security.Claims;
-
-namespace ExpenseManagement.Persistence.Options.JwtBearer
+﻿namespace ExpenseManagement.Application.Options.JwtBearer
 {
     public sealed class JwtBearerOptionsSetup : IConfigureNamedOptions<JwtBearerOptions>
     {

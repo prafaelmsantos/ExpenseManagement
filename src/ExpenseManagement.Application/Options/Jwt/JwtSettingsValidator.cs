@@ -1,4 +1,4 @@
-﻿namespace ExpenseManagement.Persistence.Options.Jwt
+﻿namespace ExpenseManagement.Application.Options.Jwt
 {
     internal sealed class JwtSettingsValidator : IValidateOptions<JwtSettings>
     {
