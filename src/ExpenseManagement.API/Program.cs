@@ -1,4 +1,6 @@
-﻿namespace ExpenseManagement.API
+﻿using ExpenseManagement.Application.Interfaces.Services;
+
+namespace ExpenseManagement.API
 {
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     public class Program
@@ -17,6 +19,7 @@
 
                 var app = builder.Build();
                 ConfigureApp(app);
+                //await InitialSyncAsync(app);
 
                 //await RunMigrationsAsync(app);
 
@@ -103,6 +106,18 @@
                 Console.WriteLine("Update database started");
                 context.Database.SetCommandTimeout(TimeSpan.FromHours(2));
                 await context.Database.MigrateAsync();
+                Console.WriteLine("Update database ended");
+            }
+        }
+
+        private static async Task InitialSyncAsync(WebApplication app)
+        {
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var initialSyncService = services.GetRequiredService<IInitialSyncService>();
+                Console.WriteLine("Update database started");
+                await initialSyncService.AddDefaultUserRoleAsync();
                 Console.WriteLine("Update database ended");
             }
         }

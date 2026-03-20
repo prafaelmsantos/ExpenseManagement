@@ -83,11 +83,11 @@
 
             entity.Property(x => x.FirstName)
                 .HasColumnName("first_name")
-                .IsRequired();
+                .IsRequired(false);
 
             entity.Property(x => x.LastName)
                 .HasColumnName("last_name")
-                .IsRequired();
+                .IsRequired(false);
 
             entity.Property(x => x.DarkMode)
                 .HasColumnName("dark_mode")
@@ -115,9 +115,9 @@
                 .IsRequired();
 
             entity.HasMany(e => e.UserRoles)
-               .WithOne(e => e.User)
-               .HasForeignKey(ur => ur.UserId)
-               .IsRequired();
+                .WithOne(e => e.User)
+                .HasForeignKey(ur => ur.UserId)
+                .IsRequired();
         }
     }
 }

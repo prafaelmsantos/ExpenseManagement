@@ -8,5 +8,11 @@
         public virtual ICollection<UserRole> UserRoles { get; private set; } = [];
 
         public Role() { }
+
+        public Role(string name, bool isDefault)
+        {
+            Name = name;
+            IsDefault = isDefault;
+        }
     }
 }
