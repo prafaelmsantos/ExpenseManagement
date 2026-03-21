@@ -1,9 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
-
 namespace ExpenseManagement.API.Controllers
 {
+    [ApiVersion("1.0", Deprecated = false)]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -17,7 +16,7 @@ namespace ExpenseManagement.API.Controllers
         {
             _logger = logger;
         }
-
+        [Authorize(Roles = "Admin,User")]
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {

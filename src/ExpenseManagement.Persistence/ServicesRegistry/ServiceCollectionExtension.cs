@@ -10,20 +10,32 @@
             services.AddDbContextServices();
 
             services
-                .AddIdentity<User, Role>(x =>
+                .AddIdentityCore<User>(options =>
                 {
-                    x.Password.RequireDigit = false;
-                    x.Password.RequireNonAlphanumeric = false;
-                    x.Password.RequireLowercase = false;
-                    x.Password.RequireUppercase = false;
-                    x.Password.RequiredLength = 6;
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequiredLength = 6;
                 })
                 .AddRoles<Role>()
-                //.AddRoleManager<RoleManager<Role>>()
-                //.AddSignInManager<SignInManager<User>>()
-                //.AddRoleValidator<RoleValidator<Role>>()
+                .AddSignInManager<SignInManager<User>>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
+            // .AddIdentity<User, Role>(x =>
+            // {
+            //     x.Password.RequireDigit = false;
+            //     x.Password.RequireNonAlphanumeric = false;
+            //     x.Password.RequireLowercase = false;
+            //     x.Password.RequireUppercase = false;
+            //     x.Password.RequiredLength = 6;
+            // })
+            // .AddRoles<Role>()
+            // //.AddRoleManager<RoleManager<Role>>()
+            // //.AddSignInManager<SignInManager<User>>()
+            // //.AddRoleValidator<RoleValidator<Role>>()
+            // .AddEntityFrameworkStores<AppDbContext>()
+            // .AddDefaultTokenProviders();
 
             services
                 .AddHealthChecks()
