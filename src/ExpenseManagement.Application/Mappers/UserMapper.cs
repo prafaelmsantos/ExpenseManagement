@@ -30,8 +30,9 @@
             {
                 Id = user.Id,
                 UserName = user.UserName ?? string.Empty,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
+                FullName = !string.IsNullOrWhiteSpace(user.FirstName) && !string.IsNullOrWhiteSpace(user.LastName)
+                    ? $"{user.FirstName} {user.LastName}"
+                    : null,
                 Role = user.UserRoles.First().Role.Name ?? string.Empty
             };
         }

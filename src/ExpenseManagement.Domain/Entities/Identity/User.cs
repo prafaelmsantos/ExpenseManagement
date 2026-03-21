@@ -4,7 +4,6 @@
     {
         public string? FirstName { get; private set; }
         public string? LastName { get; private set; }
-        public bool DarkMode { get; private set; }
 
         public virtual ICollection<UserClaim> Claims { get; private set; } = [];
         public virtual ICollection<UserLogin> Logins { get; private set; } = [];

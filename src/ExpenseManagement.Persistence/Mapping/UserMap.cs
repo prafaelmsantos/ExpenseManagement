@@ -89,11 +89,6 @@
                 .HasColumnName("last_name")
                 .IsRequired(false);
 
-            entity.Property(x => x.DarkMode)
-                .HasColumnName("dark_mode")
-                .HasDefaultValue(false)
-                .IsRequired();
-
             entity.HasMany(e => e.Claims)
                 .WithOne(e => e.User)
                 .HasForeignKey(uc => uc.UserId)

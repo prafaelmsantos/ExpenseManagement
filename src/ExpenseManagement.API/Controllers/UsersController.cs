@@ -34,7 +34,7 @@
         [HttpGet("{userId}")]
         [Consumes("application/json")]
         [Produces("application/json")]
-        public async Task<IActionResult> GetByIdAsync([FromRoute] Guid userId)
+        public async Task<IActionResult> GetUserByIdAsync([FromRoute] Guid userId)
         {
             Validator.New()
                 .When(userId == default, "O Id do utilizador é invalido.")
@@ -51,11 +51,13 @@
         [Produces("application/json")]
         public async Task<IActionResult> GetUserSettingsAsync()
         {
-            //Validator.New()
-            //    .When(userId == default, "O Id do utilizador é invalido.")
-            //    .TriggerBadRequestExceptionIfExist();
+            Guid userId = HttpContext.User.GetUserId();
 
-            UserDTO userDTO = await _userService.GetUserByIdAsync(Guid.NewGuid());
+            Validator.New()
+                .When(userId == default, "O Id do utilizador é invalido.")
+                .TriggerUnauthorizedExceptionIfExist();
+
+            UserDTO userDTO = await _userService.GetUserByIdAsync(userId);
 
             return Ok(userDTO);
         }
@@ -77,7 +79,7 @@
         [HttpPut("{userId}")]
         [Consumes("application/json")]
         [Produces("application/json")]
-        public async Task<IActionResult> PutAsync([FromRoute] Guid userId, [FromBody] UserDTO userDTO)
+        public async Task<IActionResult> UpdateUserAsync([FromRoute] Guid userId, [FromBody] UserDTO userDTO)
         {
             Validator.New()
                 .When(userId == default, "O Id do utilizador é invalido.")
@@ -92,7 +94,7 @@
         [HttpPost("delete")]
         [Consumes("application/json")]
         [Produces("application/json")]
-        public async Task<IActionResult> DeleteAsync([FromBody] List<Guid> usersIds)
+        public async Task<IActionResult> DeleteUsersAsync([FromBody] List<Guid> usersIds)
         {
             List<BaseResponseDTO> baseResponses = await _userService.DeleteUsersAsync(usersIds);
 

@@ -121,15 +121,22 @@
 
                     if (user is not null)
                     {
-                        IdentityResult resultDelete = await _userManager.DeleteAsync(user);
-
-                        if (resultDelete.Succeeded)
+                        if (user.UserRoles.Count != 0 && user.UserRoles.First().Role.Name == _userDefaultSettings.RoleAdmin)
                         {
-                            internalBaseResponseDTO.Success = resultDelete.Succeeded;
+                            internalBaseResponseDTO.Message = "O utilizador selecionado é o administrador do sistema.";
                         }
                         else
                         {
-                            internalBaseResponseDTO.Message = "Erro ao tentar apagar o utilizador.";
+                            IdentityResult resultDelete = await _userManager.DeleteAsync(user);
+
+                            if (resultDelete.Succeeded)
+                            {
+                                internalBaseResponseDTO.Success = resultDelete.Succeeded;
+                            }
+                            else
+                            {
+                                internalBaseResponseDTO.Message = "Erro ao tentar apagar o utilizador.";
+                            }
                         }
                     }
                     else
