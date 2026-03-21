@@ -23,6 +23,7 @@ export function UserProvider({ children }: Props) {
 
   const clearUser = () => {
     setUserState(null);
+    localStorage.removeItem("token");
     localStorage.removeItem("user");
   };
 

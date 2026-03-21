@@ -15,6 +15,7 @@ import {
 } from "../mixins";
 import SidebarPageItem from "./SidebarPageItem";
 import { NavItems, NavType } from "../../routes/Nav";
+import SideMenu from "./SideMenu";
 
 export interface SidebarProps {
   expanded?: boolean;
@@ -124,7 +125,8 @@ export default function Sidebar({
             sx={{
               padding: mini ? 0 : 0.5,
               mb: 4,
-              width: mini ? MINI_DRAWER_WIDTH : "auto"
+              width: mini ? MINI_DRAWER_WIDTH : "auto",
+              height: "100%"
             }}
           >
             {NavItems.map((item, i) => (
@@ -141,6 +143,9 @@ export default function Sidebar({
                 }
               />
             ))}
+            <Box sx={{ mt: "auto" }}>
+              <SideMenu />
+            </Box>
           </List>
         </Box>
       </React.Fragment>

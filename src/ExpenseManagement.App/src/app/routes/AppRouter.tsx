@@ -8,6 +8,7 @@ import UsersPage from "../pages/users/UsersPage";
 
 export default function AppRouter() {
   const { user } = useUser();
+
   const Routes = user
     ? [
         {
@@ -19,7 +20,6 @@ export default function AppRouter() {
             { path: "/users/:userId", element: <UserPage /> },
             { path: "/users/:userId/edit", element: <UserPage /> },
             { path: "/users/new", element: <UserPage /> },
-
             { path: "*", element: <Navigate to="/" replace /> }
           ]
         }
