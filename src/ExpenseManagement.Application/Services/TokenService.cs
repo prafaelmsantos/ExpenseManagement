@@ -16,7 +16,7 @@
         #region Public methods
         public UserTokenDTO GenerateToken(List<Claim> claims)
         {
-            SymmetricSecurityKey key = new(Encoding.UTF8.GetBytes(_jwtSettings.PubKey));
+            SymmetricSecurityKey key = new(Encoding.UTF8.GetBytes(_jwtSettings.Key));
 
             SigningCredentials creds = new(key, SecurityAlgorithms.HmacSha256);
 

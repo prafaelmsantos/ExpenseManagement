@@ -1,6 +1,6 @@
 ﻿namespace ExpenseManagement.Application.Interfaces.Services
 {
-    public interface ISignInService
+    public interface IAuthService
     {
         Task<UserTokenDTO> LoginAsync(UserLoginDTO userLoginDTO);
     }

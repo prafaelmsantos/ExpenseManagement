@@ -11,9 +11,9 @@
                 return ValidateOptionsResult.Fail($"{nameof(JwtSettings)} must be provided");
             }
 
-            if (string.IsNullOrWhiteSpace(jwtSettings.PubKey))
+            if (string.IsNullOrWhiteSpace(jwtSettings.Key))
             {
-                errors.Add($"{nameof(JwtSettings)}.{nameof(JwtSettings.PubKey)} must have a value");
+                errors.Add($"{nameof(JwtSettings)}.{nameof(JwtSettings.Key)} must have a value");
             }
 
             if (string.IsNullOrWhiteSpace(jwtSettings.Issuer))

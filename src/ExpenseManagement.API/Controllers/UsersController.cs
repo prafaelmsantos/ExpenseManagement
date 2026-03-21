@@ -45,6 +45,21 @@
             return Ok(userDTO);
         }
 
+        /// <summary> Get User Settings </summary>
+        [HttpGet("settings")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        public async Task<IActionResult> GetUserSettingsAsync()
+        {
+            //Validator.New()
+            //    .When(userId == default, "O Id do utilizador é invalido.")
+            //    .TriggerBadRequestExceptionIfExist();
+
+            UserDTO userDTO = await _userService.GetUserByIdAsync(Guid.NewGuid());
+
+            return Ok(userDTO);
+        }
+
         /// <summary> Create User </summary>
         /// <param name="userDTO"></param>
         [HttpPost]

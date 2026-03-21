@@ -1,6 +1,6 @@
 ﻿namespace ExpenseManagement.Application.Services
 {
-    public sealed class SignInService : ISignInService
+    public sealed class AuthService : IAuthService
     {
         #region Private variables
         private readonly IUserService _userService;
@@ -9,7 +9,7 @@
         #endregion
 
         #region Constructor
-        public SignInService(
+        public AuthService(
             IUserService userService,
             ITokenService tokenService,
             SignInManager<User> signInManager)

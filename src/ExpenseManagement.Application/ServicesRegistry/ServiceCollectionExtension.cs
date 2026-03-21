@@ -11,7 +11,7 @@
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
-            services.AddScoped<ISignInService, SignInService>();
+            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IInitialSyncService, InitialSyncService>();
 

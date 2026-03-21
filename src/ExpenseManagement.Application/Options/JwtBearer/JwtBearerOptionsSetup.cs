@@ -16,12 +16,6 @@
 
         public void Configure(string? name, JwtBearerOptions options)
         {
-            RSA rsa = RSA.Create();
-
-            rsa.ImportSubjectPublicKeyInfo(Convert.FromBase64String(_jwtSettings.PubKey), out _);
-
-            options.MapInboundClaims = false;
-
             options.TokenValidationParameters = new TokenValidationParameters()
             {
                 ValidateIssuer = true,
@@ -30,7 +24,7 @@
                 ValidateIssuerSigningKey = true,
                 ValidIssuer = _jwtSettings.Issuer,
                 ValidAudience = _jwtSettings.Audience,
-                IssuerSigningKey = new RsaSecurityKey(rsa),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key)),
                 RoleClaimType = ClaimTypes.Role
             };
 
