@@ -4,13 +4,13 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AppRouter from "./routes/AppRouter";
 import { LoadingProvider } from "./context/useLoading/LoadingProvider";
 import { ModalProvider } from "./context/useModal/ModalProvider";
-import { UserProvider } from "./context/useUser/UserProvider";
+import { AuthProvider } from "./context/useAuth/AuthProvider";
 
 function App() {
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />
-      <UserProvider>
+      <AuthProvider>
         <NotificationsProvider>
           <LoadingProvider>
             <ModalProvider>
@@ -18,7 +18,7 @@ function App() {
             </ModalProvider>
           </LoadingProvider>
         </NotificationsProvider>
-      </UserProvider>
+      </AuthProvider>
     </AppTheme>
   );
 }

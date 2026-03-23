@@ -9,6 +9,9 @@
 
             services.AddDbContextServices();
 
+            services.AddScoped<IExpenseRepository, ExpenseRepository>();
+            services.AddScoped<ISavingRepository, SavingRepository>();
+
             services
                 .AddIdentityCore<User>(options =>
                 {
@@ -22,20 +25,6 @@
                 .AddSignInManager<SignInManager<User>>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
-            // .AddIdentity<User, Role>(x =>
-            // {
-            //     x.Password.RequireDigit = false;
-            //     x.Password.RequireNonAlphanumeric = false;
-            //     x.Password.RequireLowercase = false;
-            //     x.Password.RequireUppercase = false;
-            //     x.Password.RequiredLength = 6;
-            // })
-            // .AddRoles<Role>()
-            // //.AddRoleManager<RoleManager<Role>>()
-            // //.AddSignInManager<SignInManager<User>>()
-            // //.AddRoleValidator<RoleValidator<Role>>()
-            // .AddEntityFrameworkStores<AppDbContext>()
-            // .AddDefaultTokenProviders();
 
             services
                 .AddHealthChecks()

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import UserContext from "./UserContext.tsx";
+import AuthContext from "./AuthContext.tsx";
 import { IUser } from "../../pages/users/models/User.ts";
 
 interface Props {
   children: React.ReactNode;
 }
 
-export function UserProvider({ children }: Props) {
+export function AuthProvider({ children }: Props) {
   const [user, setUserState] = useState<IUser | null>(null);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export function UserProvider({ children }: Props) {
   };
 
   return (
-    <UserContext.Provider
+    <AuthContext.Provider
       value={{
         user,
         setUser,
@@ -36,6 +36,6 @@ export function UserProvider({ children }: Props) {
       }}
     >
       {children}
-    </UserContext.Provider>
+    </AuthContext.Provider>
   );
 }

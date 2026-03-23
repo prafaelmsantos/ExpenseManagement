@@ -15,7 +15,7 @@ import { postUserLogin } from "../../services/SignInService";
 import { useModal } from "../../../../context/useModal/useModal";
 import { IUserToken } from "../../models/UserToken";
 import SitemarkIcon from "../../../../components/SitemarkIcon";
-import useUser from "../../../../context/useUser/useUser";
+import useAuth from "../../../../context/useAuth/useAuth";
 import { IUser } from "../../../users/models/User";
 import { getUserSettings } from "../../../users/services/UserService";
 
@@ -39,7 +39,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
 
 export default function SignInForm() {
   const { startLoading, stopLoading } = useLoading();
-  const { setUser } = useUser();
+  const { setUser } = useAuth();
   const { showError } = useModal();
 
   const methods = useForm<ISignInSchema>({

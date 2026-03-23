@@ -1,12 +1,12 @@
 import { createContext } from "react";
 import { IUser } from "../../pages/users/models/User";
 
-export interface UserContextType {
+export interface AuthContextType {
   user: IUser | null;
   setUser: (user: IUser) => void;
   clearUser: () => void;
 }
 
-const UserContext = createContext<UserContextType | null>(null);
+const AuthContext = createContext<AuthContextType | null>(null);
 
-export default UserContext;
+export default AuthContext;

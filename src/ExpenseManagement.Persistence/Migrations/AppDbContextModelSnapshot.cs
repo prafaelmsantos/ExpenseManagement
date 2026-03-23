@@ -25,6 +25,39 @@ namespace ExpenseManagement.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("ExpenseManagement.Domain.Entities.Expense", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("amount");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int")
+                        .HasColumnName("category");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("date");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("expense", (string)null);
+                });
+
             modelBuilder.Entity("ExpenseManagement.Domain.Entities.Identity.Role", b =>
                 {
                     b.Property<Guid>("Id")
@@ -277,6 +310,46 @@ namespace ExpenseManagement.Persistence.Migrations
                     b.ToTable("user_tokens", (string)null);
                 });
 
+            modelBuilder.Entity("ExpenseManagement.Domain.Entities.Saving", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("amount");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("date");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("saving", (string)null);
+                });
+
+            modelBuilder.Entity("ExpenseManagement.Domain.Entities.Expense", b =>
+                {
+                    b.HasOne("ExpenseManagement.Domain.Entities.Identity.User", "User")
+                        .WithMany("Expenses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ExpenseManagement.Domain.Entities.Identity.RoleClaim", b =>
                 {
                     b.HasOne("ExpenseManagement.Domain.Entities.Identity.Role", "Role")
@@ -340,6 +413,17 @@ namespace ExpenseManagement.Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ExpenseManagement.Domain.Entities.Saving", b =>
+                {
+                    b.HasOne("ExpenseManagement.Domain.Entities.Identity.User", "User")
+                        .WithMany("Savings")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ExpenseManagement.Domain.Entities.Identity.Role", b =>
                 {
                     b.Navigation("RoleClaims");
@@ -351,7 +435,11 @@ namespace ExpenseManagement.Persistence.Migrations
                 {
                     b.Navigation("Claims");
 
+                    b.Navigation("Expenses");
+
                     b.Navigation("Logins");
+
+                    b.Navigation("Savings");
 
                     b.Navigation("Tokens");
 

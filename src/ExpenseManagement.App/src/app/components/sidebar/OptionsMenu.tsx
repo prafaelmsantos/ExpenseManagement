@@ -10,7 +10,7 @@ import ListItemIcon, { listItemIconClasses } from "@mui/material/ListItemIcon";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import MenuButton from "./MenuButton";
-import useUser from "../../context/useUser/useUser";
+import useAuth from "../../context/useAuth/useAuth";
 
 const MenuItem = styled(MuiMenuItem)({
   margin: "2px 0"
@@ -22,7 +22,7 @@ export default function OptionsMenu() {
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const { clearUser } = useUser();
+  const { clearUser } = useAuth();
   const handleClose = () => {
     setAnchorEl(null);
   };

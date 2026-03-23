@@ -3,10 +3,10 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import OptionsMenu from "./OptionsMenu";
-import useUser from "../../context/useUser/useUser";
+import useAuth from "../../context/useAuth/useAuth";
 
 export default function SideMenu() {
-  const { user } = useUser();
+  const { user } = useAuth();
 
   return (
     <Stack

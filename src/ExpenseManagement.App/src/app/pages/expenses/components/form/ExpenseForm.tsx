@@ -1,32 +1,52 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { Divider, Paper, TextField, Typography } from "@mui/material";
 import Grid from "@mui/material/GridLegacy";
-import { IUserSchema } from "../../services/UserSchema";
 import { IMode } from "../../../../models/Mode";
+import { IExpenseSchema } from "../../services/ExpenseSchema";
+import { DateTimePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
-export default function UserForm({ mode }: { mode: IMode }) {
+export default function ExpenseForm({ mode }: { mode: IMode }) {
   const {
     control,
     formState: { errors }
-  } = useFormContext<IUserSchema>();
+  } = useFormContext<IExpenseSchema>();
 
   return (
     <Paper elevation={3} sx={{ p: 3, mt: 2 }}>
       <Typography variant="h6" gutterBottom>
-        Detalhes do Utilizador
+        Detalhes da Despesa
       </Typography>
       <Divider sx={{ mb: 5 }} />
 
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <Controller
-            name="firstName"
+            name="amount"
+            control={control}
+            defaultValue={0}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Quantia"
+                fullWidth
+                type="number"
+                variant="outlined"
+                disabled={mode == IMode.PREVIEW}
+              />
+            )}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <Controller
+            name="category"
             control={control}
             defaultValue=""
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Primeiro Nome"
+                label="Categoria"
                 fullWidth
                 variant="outlined"
                 disabled={mode == IMode.PREVIEW}
@@ -37,59 +57,18 @@ export default function UserForm({ mode }: { mode: IMode }) {
 
         <Grid item xs={12} sm={6}>
           <Controller
-            name="lastName"
+            name="date"
             control={control}
-            defaultValue=""
+            defaultValue={new Date()}
             render={({ field }) => (
-              <TextField
-                {...field}
-                label="Último Nome"
-                fullWidth
-                variant="outlined"
+              <DateTimePicker
+                label="Data"
+                value={field.value ? dayjs(field.value) : null}
+                onChange={(date) => field.onChange(date?.toISOString())}
                 disabled={mode == IMode.PREVIEW}
               />
             )}
           />
-        </Grid>
-      </Grid>
-      <Grid container spacing={2} sx={{ mt: 2 }}>
-        <Grid item xs={12} sm={6}>
-          <Controller
-            name="userName"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextField
-                {...field}
-                required={mode == IMode.ADD}
-                label="Nome do Utilizador"
-                fullWidth
-                variant="outlined"
-                error={!!errors.userName}
-                helperText={errors.userName?.message}
-                disabled={mode == IMode.PREVIEW || mode == IMode.EDIT}
-              />
-            )}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          {mode !== IMode.ADD && (
-            <Controller
-              name="role.name"
-              control={control}
-              defaultValue=""
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label="Cargo"
-                  fullWidth
-                  variant="outlined"
-                  disabled
-                />
-              )}
-            />
-          )}
         </Grid>
       </Grid>
     </Paper>
