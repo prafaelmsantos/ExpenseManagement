@@ -4,6 +4,9 @@
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
+        public DbSet<Expense> Expenses { get; set; }
+        public DbSet<Saving> Savings { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -16,6 +19,9 @@
             modelBuilder.ApplyConfiguration(new UserClaimMap());
             modelBuilder.ApplyConfiguration(new UserLoginMap());
             modelBuilder.ApplyConfiguration(new UserTokenMap());
+
+            modelBuilder.AddConfiguration(new ExpenseMap());
+            modelBuilder.AddConfiguration(new SavingMap());
         }
     }
 }

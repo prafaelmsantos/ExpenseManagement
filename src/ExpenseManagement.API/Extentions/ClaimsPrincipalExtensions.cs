@@ -5,7 +5,13 @@
         public static Guid GetUserId(this ClaimsPrincipal user)
         {
             string claim = user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
-            return Guid.Parse(claim!);
+            Guid userId = Guid.Parse(claim!);
+
+            Validator.New()
+                .When(userId == default, "O Id do utilizador é invalido.")
+                .TriggerUnauthorizedExceptionIfExist();
+
+            return userId;
         }
     }
 }

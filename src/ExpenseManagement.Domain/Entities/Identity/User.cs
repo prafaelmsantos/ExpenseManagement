@@ -9,6 +9,8 @@
         public virtual ICollection<UserLogin> Logins { get; private set; } = [];
         public virtual ICollection<UserToken> Tokens { get; private set; } = [];
         public virtual ICollection<UserRole> UserRoles { get; private set; } = [];
+        public virtual ICollection<Expense> Expenses { get; private set; } = [];
+        public virtual ICollection<Saving> Savings { get; private set; } = [];
 
         public User() { }
 

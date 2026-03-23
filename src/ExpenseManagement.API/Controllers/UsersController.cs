@@ -1,6 +1,6 @@
 ﻿namespace ExpenseManagement.API.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [ApiVersion("1.0", Deprecated = false)]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
@@ -29,7 +29,7 @@
             return Ok(users);
         }
 
-        /// <summary> Get User </summary>
+        /// <summary> Get User By Id </summary>
         /// <param name="userId"></param>
         [HttpGet("{userId}")]
         [Consumes("application/json")]
@@ -52,10 +52,6 @@
         public async Task<IActionResult> GetUserSettingsAsync()
         {
             Guid userId = HttpContext.User.GetUserId();
-
-            Validator.New()
-                .When(userId == default, "O Id do utilizador é invalido.")
-                .TriggerUnauthorizedExceptionIfExist();
 
             UserDTO userDTO = await _userService.GetUserByIdAsync(userId);
 
@@ -90,13 +86,13 @@
         }
 
         //// <summary> Delete Users  </summary>
-        /// <param name="usersIds"></param>
+        /// <param name="userIds"></param>
         [HttpPost("delete")]
         [Consumes("application/json")]
         [Produces("application/json")]
-        public async Task<IActionResult> DeleteUsersAsync([FromBody] List<Guid> usersIds)
+        public async Task<IActionResult> DeleteUsersAsync([FromBody] List<Guid> userIds)
         {
-            List<BaseResponseDTO> baseResponses = await _userService.DeleteUsersAsync(usersIds);
+            List<BaseResponseDTO> baseResponses = await _userService.DeleteUsersAsync(userIds);
 
             return Ok(baseResponses);
         }

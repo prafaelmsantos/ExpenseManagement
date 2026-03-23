@@ -13,7 +13,10 @@
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ITokenService, TokenService>();
+
             services.AddScoped<IInitialSyncService, InitialSyncService>();
+            services.AddScoped<ISavingService, SavingService>();
+            services.AddScoped<IExpenseService, ExpenseService>();
 
             return services;
         }

@@ -1,10 +1,16 @@
-﻿global using ExpenseManagement.Application.Interfaces.Repositories.Base;
+﻿global using ExpenseManagement.Application.Interfaces.Repositories;
+global using ExpenseManagement.Application.Interfaces.Repositories.Base;
+global using ExpenseManagement.Domain.Entities;
 global using ExpenseManagement.Domain.Entities.Base;
 global using ExpenseManagement.Domain.Entities.Identity;
 global using ExpenseManagement.Persistence.Context;
+global using ExpenseManagement.Persistence.Extentions;
 global using ExpenseManagement.Persistence.Mapping;
 global using ExpenseManagement.Persistence.Mapping.Base;
+global using ExpenseManagement.Persistence.Mapping.Identity;
 global using ExpenseManagement.Persistence.Options.App;
+global using ExpenseManagement.Persistence.Repositories;
+global using ExpenseManagement.Persistence.Repositories.Base;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 global using Microsoft.AspNetCore.SignalR;
