@@ -14,12 +14,12 @@
         #endregion
 
         #region Public methods
-        public async Task<List<SavingTableDTO>> GetAllSavingsAsync(Guid userId, CancellationToken cancellationToken = default)
+        public async Task<List<SavingDTO>> GetAllSavingsAsync(Guid userId, CancellationToken cancellationToken = default)
         {
-            List<SavingTableDTO> savings = await _savingRepository
+            List<SavingDTO> savings = await _savingRepository
                 .GetAllQueryable()
                 .Where(x => x.UserId == userId)
-                .Select(x => x.ToSavingTableDTO())
+                .Select(x => x.ToSavingDTO())
                 .ToListAsync(cancellationToken);
 
             return savings;

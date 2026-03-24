@@ -14,12 +14,12 @@
         #endregion
 
         #region Public methods
-        public async Task<List<ExpenseTableDTO>> GetAllExpensesAsync(Guid userId, CancellationToken cancellationToken = default)
+        public async Task<List<ExpenseDTO>> GetAllExpensesAsync(Guid userId, CancellationToken cancellationToken = default)
         {
-            List<ExpenseTableDTO> expenses = await _expenseRepository
+            List<ExpenseDTO> expenses = await _expenseRepository
                 .GetAllQueryable()
                 .Where(x => x.UserId == userId)
-                .Select(x => x.ToExpenseTableDTO())
+                .Select(x => x.ToExpenseDTO())
                 .ToListAsync(cancellationToken);
 
             return expenses;

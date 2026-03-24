@@ -19,21 +19,5 @@
                 Description = expense.Description
             };
         }
-
-        public static ExpenseTableDTO ToExpenseTableDTO(this Expense expense)
-        {
-            if (expense is null)
-            {
-                return null!;
-            }
-
-            return new ExpenseTableDTO()
-            {
-                Id = expense.Id,
-                Amount = expense.Amount,
-                Category = expense.Category,
-                Date = expense.Date.ToString("dd-MM-yyyy HH:mm:ss")
-            };
-        }
     }
 }

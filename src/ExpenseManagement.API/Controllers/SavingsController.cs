@@ -27,7 +27,7 @@
         {
             Guid userId = HttpContext.User.GetUserId();
 
-            List<SavingTableDTO> savings = await _savingService.GetAllSavingsAsync(userId);
+            List<SavingDTO> savings = await _savingService.GetAllSavingsAsync(userId);
             return Ok(savings);
         }
 

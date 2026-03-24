@@ -1,14 +1,17 @@
 export interface IExpense {
   id: string | null;
+  name: string;
   amount: number;
   category: ExpenseCategory;
   date: string;
+  description: string | null;
 }
 
 export interface IExpenseTable {
-  id: string;
+  id: string | null;
+  name: string;
   amount: number;
-  category: ExpenseCategory;
+  category: string;
   date: string;
 }
 
@@ -52,6 +55,7 @@ export const ExpenseCategoryPt: Record<ExpenseCategory, string> = {
 
 export enum ExpenseKeys {
   id = "id",
+  name = "name",
   amount = "amount",
   category = "category",
   date = "date"

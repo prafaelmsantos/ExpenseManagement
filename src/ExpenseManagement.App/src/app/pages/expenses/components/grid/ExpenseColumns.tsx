@@ -9,6 +9,12 @@ export default function ExpenseColumns(): GridColDef<IExpenseTable>[] {
       width: 250
     },
     {
+      field: ExpenseKeys.name,
+      headerName: "Nome",
+      flex: 1,
+      width: 250
+    },
+    {
       field: ExpenseKeys.category,
       headerName: "Categoria",
       flex: 1,

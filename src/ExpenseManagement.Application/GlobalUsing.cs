@@ -6,6 +6,7 @@ global using ExpenseManagement.Application.Interfaces.Repositories.Base;
 global using ExpenseManagement.Application.Interfaces.Services;
 global using ExpenseManagement.Application.Interfaces.Services.Identity;
 global using ExpenseManagement.Application.Mappers;
+global using ExpenseManagement.Application.Mappers.Identity;
 global using ExpenseManagement.Application.Options.Jwt;
 global using ExpenseManagement.Application.Options.JwtBearer;
 global using ExpenseManagement.Application.Options.UserDefault;

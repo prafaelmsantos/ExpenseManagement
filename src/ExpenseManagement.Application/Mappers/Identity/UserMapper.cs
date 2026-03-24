@@ -1,4 +1,4 @@
-﻿namespace ExpenseManagement.Application.Mappers
+﻿namespace ExpenseManagement.Application.Mappers.Identity
 {
     public static class UserMapper
     {

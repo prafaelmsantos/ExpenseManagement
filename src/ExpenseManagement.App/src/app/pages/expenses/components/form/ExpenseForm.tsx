@@ -14,7 +14,7 @@ import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { ExpenseCategory, ExpenseCategoryPt } from "../../models/Expense";
 
-export default function ExpenseForm({ mode }: { mode: IMode }) {
+export default function ExpenseForm({ disabled }: { disabled: boolean }) {
   const {
     control,
     formState: { errors }
@@ -32,7 +32,26 @@ export default function ExpenseForm({ mode }: { mode: IMode }) {
       <Divider sx={{ mb: 5 }} />
 
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={4}>
+          <Controller
+            name="name"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                {...field}
+                required
+                label="Nome"
+                fullWidth
+                variant="outlined"
+                error={!!errors.name}
+                helperText={errors.name?.message}
+                disabled={disabled}
+              />
+            )}
+          />
+        </Grid>
+        <Grid item xs={12} sm={2}>
           <Controller
             name="amount"
             control={control}
@@ -56,13 +75,13 @@ export default function ExpenseForm({ mode }: { mode: IMode }) {
                     inputProps: { step: 0.1, min: 0.0 }
                   }
                 }}
-                disabled={mode == IMode.PREVIEW}
+                disabled={disabled}
               />
             )}
           />
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={3}>
           <Controller
             name="category"
             control={control}
@@ -74,12 +93,12 @@ export default function ExpenseForm({ mode }: { mode: IMode }) {
                 getOptionLabel={(option) => ExpenseCategoryPt[option]}
                 isOptionEqualToValue={(option, value) => option === value}
                 onChange={(_, value) => field.onChange(value)}
-                disabled={mode == IMode.PREVIEW}
+                disabled={disabled}
                 renderInput={(params) => (
                   <TextField
                     {...params}
                     label="Categoria"
-                    required={mode === IMode.ADD}
+                    required
                     error={!!errors.category}
                     helperText={errors.category?.message}
                   />
@@ -89,7 +108,7 @@ export default function ExpenseForm({ mode }: { mode: IMode }) {
           />
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={3}>
           <Controller
             name="date"
             control={control}
@@ -105,11 +124,42 @@ export default function ExpenseForm({ mode }: { mode: IMode }) {
                   )
                 }
                 ampm={false}
-                disabled={mode == IMode.PREVIEW}
+                disabled={disabled}
                 localeText={{
+                  fieldYearPlaceholder: () => "aaaa",
+                  fieldMonthPlaceholder: () => "mm",
+                  fieldDayPlaceholder: () => "dd",
                   cancelButtonLabel: "Cancelar",
                   okButtonLabel: "Confirmar"
                 }}
+                slotProps={{
+                  textField: {
+                    error: !!errors.date,
+                    helperText: errors.date?.message,
+                    fullWidth: true
+                  }
+                }}
+              />
+            )}
+          />
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={2} sx={{ mt: 2 }}>
+        <Grid item xs={12}>
+          <Controller
+            name="description"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Descrição"
+                fullWidth
+                variant="outlined"
+                multiline
+                rows={8}
+                disabled={disabled}
               />
             )}
           />

@@ -2,7 +2,7 @@
 {
     public interface IExpenseService
     {
-        Task<List<ExpenseTableDTO>> GetAllExpensesAsync(Guid userId, CancellationToken cancellationToken = default);
+        Task<List<ExpenseDTO>> GetAllExpensesAsync(Guid userId, CancellationToken cancellationToken = default);
         Task<ExpenseDTO> GetExpenseByIdAsync(Guid expenseIdGuid, Guid userId, CancellationToken cancellationToken = default);
         Task<ExpenseDTO> AddExpenseAsync(ExpenseDTO expenseDTO, Guid userId, CancellationToken cancellationToken = default);
         Task<ExpenseDTO> UpdateExpenseAsync(ExpenseDTO expenseDTO, Guid userId, CancellationToken cancellationToken = default);

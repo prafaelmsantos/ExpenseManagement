@@ -22,6 +22,7 @@ import {
 } from "./services/ExpenseService";
 import { expenseSchema, IExpenseSchema } from "./services/ExpenseSchema";
 import ExpenseForm from "./components/form/ExpenseForm";
+import dayjs from "dayjs";
 
 export default function ExpensePage() {
   const baseUrl: string = "/expenses";
@@ -41,23 +42,15 @@ export default function ExpensePage() {
     shouldFocusError: true
   });
 
-  const {
-    reset,
-    handleSubmit,
-    watch,
-    formState: { errors }
-  } = methods;
-
-  console.log(watch("id"));
-  console.log(watch("category"));
-  console.log(watch("date"));
-  console.log(errors);
+  const { reset, handleSubmit } = methods;
 
   const [expense, setExpense] = useState<IExpense>({
     id: null,
+    name: "",
     amount: 0,
     category: ExpenseCategory.Housing,
-    date: ""
+    date: dayjs().startOf("day").toISOString(),
+    description: ""
   });
 
   const [mode, setMode] = useState<IMode>(IMode.PREVIEW);
@@ -220,13 +213,13 @@ export default function ExpensePage() {
           <Button
             type="submit"
             variant="contained"
-            onClick={handleSubmit(
-              mode === IMode.ADD
-                ? handleSumbitAdd
-                : mode === IMode.PREVIEW
-                  ? handleEdit
-                  : handleSumbitEdit
-            )}
+            onClick={
+              mode === IMode.PREVIEW
+                ? handleEdit
+                : handleSubmit(
+                    mode === IMode.ADD ? handleSumbitAdd : handleSumbitEdit
+                  )
+            }
             startIcon={
               mode === IMode.ADD ? (
                 <AddIcon />
@@ -243,7 +236,7 @@ export default function ExpensePage() {
       }
     >
       <FormProvider {...methods}>
-        <ExpenseForm mode={mode} />
+        <ExpenseForm disabled={mode === IMode.PREVIEW} />
       </FormProvider>
     </PageContainer>
   );

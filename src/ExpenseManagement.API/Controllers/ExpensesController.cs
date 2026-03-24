@@ -27,7 +27,7 @@
         {
             Guid userId = HttpContext.User.GetUserId();
 
-            List<ExpenseTableDTO> expenses = await _expenseService.GetAllExpensesAsync(userId);
+            List<ExpenseDTO> expenses = await _expenseService.GetAllExpensesAsync(userId);
             return Ok(expenses);
         }
 

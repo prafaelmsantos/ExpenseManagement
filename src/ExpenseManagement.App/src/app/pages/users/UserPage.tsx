@@ -212,13 +212,13 @@ export default function UserPage() {
           <Button
             type="submit"
             variant="contained"
-            onClick={handleSubmit(
-              mode === IMode.ADD
-                ? handleSumbitAdd
-                : mode === IMode.PREVIEW
-                  ? handleEdit
-                  : handleSumbitEdit
-            )}
+            onClick={
+              mode === IMode.PREVIEW
+                ? handleEdit
+                : handleSubmit(
+                    mode === IMode.ADD ? handleSumbitAdd : handleSumbitEdit
+                  )
+            }
             startIcon={
               mode === IMode.ADD ? (
                 <AddIcon />

@@ -6,10 +6,10 @@ import {
   postDeleteData,
   putData
 } from "../../../services/BaseService";
-import { IExpense, IExpenseTable } from "../models/Expense";
+import { IExpense } from "../models/Expense";
 
-const getExpenses = async (): Promise<IExpenseTable[]> =>
-  await getData<IExpenseTable[]>(`${BASE_API_URL}/expenses`);
+const getExpenses = async (): Promise<IExpense[]> =>
+  await getData<IExpense[]>(`${BASE_API_URL}/expenses`);
 
 const getExpense = async (id: string): Promise<IExpense> =>
   await getData<IExpense>(`${BASE_API_URL}/expenses/${id}`);
