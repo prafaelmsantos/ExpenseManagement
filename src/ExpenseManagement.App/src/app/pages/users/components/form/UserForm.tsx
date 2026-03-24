@@ -1,6 +1,5 @@
 import { Controller, useFormContext } from "react-hook-form";
-import { Divider, Paper, TextField, Typography } from "@mui/material";
-import Grid from "@mui/material/GridLegacy";
+import { Divider, Grid, Paper, TextField, Typography } from "@mui/material";
 import { IUserSchema } from "../../services/UserSchema";
 import { IMode } from "../../../../models/Mode";
 
@@ -18,7 +17,7 @@ export default function UserForm({ mode }: { mode: IMode }) {
       <Divider sx={{ mb: 5 }} />
 
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Controller
             name="firstName"
             control={control}
@@ -35,7 +34,7 @@ export default function UserForm({ mode }: { mode: IMode }) {
           />
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Controller
             name="lastName"
             control={control}
@@ -53,7 +52,7 @@ export default function UserForm({ mode }: { mode: IMode }) {
         </Grid>
       </Grid>
       <Grid container spacing={2} sx={{ mt: 2 }}>
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Controller
             name="userName"
             control={control}
@@ -73,7 +72,7 @@ export default function UserForm({ mode }: { mode: IMode }) {
           />
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           {mode !== IMode.ADD && (
             <Controller
               name="role.name"

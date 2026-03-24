@@ -2,12 +2,12 @@ import { Controller, useFormContext } from "react-hook-form";
 import {
   Autocomplete,
   Divider,
+  Grid,
   InputAdornment,
   Paper,
   TextField,
   Typography
 } from "@mui/material";
-import Grid from "@mui/material/GridLegacy";
 import { IExpenseSchema } from "../../services/ExpenseSchema";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
@@ -31,7 +31,7 @@ export default function ExpenseForm({ disabled }: { disabled: boolean }) {
       <Divider sx={{ mb: 5 }} />
 
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={4}>
+        <Grid size={{ xs: 12, sm: 4 }}>
           <Controller
             name="name"
             control={control}
@@ -50,7 +50,7 @@ export default function ExpenseForm({ disabled }: { disabled: boolean }) {
             )}
           />
         </Grid>
-        <Grid item xs={12} sm={2}>
+        <Grid size={{ xs: 12, sm: 2 }}>
           <Controller
             name="amount"
             control={control}
@@ -80,7 +80,7 @@ export default function ExpenseForm({ disabled }: { disabled: boolean }) {
           />
         </Grid>
 
-        <Grid item xs={12} sm={3}>
+        <Grid size={{ xs: 12, sm: 3 }}>
           <Controller
             name="category"
             control={control}
@@ -107,7 +107,7 @@ export default function ExpenseForm({ disabled }: { disabled: boolean }) {
           />
         </Grid>
 
-        <Grid item xs={12} sm={3}>
+        <Grid size={{ xs: 12, sm: 3 }}>
           <Controller
             name="date"
             control={control}
@@ -145,7 +145,7 @@ export default function ExpenseForm({ disabled }: { disabled: boolean }) {
       </Grid>
 
       <Grid container spacing={2} sx={{ mt: 2 }}>
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <Controller
             name="description"
             control={control}
