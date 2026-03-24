@@ -1,36 +1,39 @@
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import AutoFixHighRoundedIcon from "@mui/icons-material/AutoFixHighRounded";
-import ConstructionRoundedIcon from "@mui/icons-material/ConstructionRounded";
-import SettingsSuggestRoundedIcon from "@mui/icons-material/SettingsSuggestRounded";
-import ThumbUpAltRoundedIcon from "@mui/icons-material/ThumbUpAltRounded";
 import SitemarkIcon from "../../components/SitemarkIcon";
+
+import {
+  AccountBalanceWalletRounded as WalletIcon,
+  BarChartRounded as DashboardIcon,
+  AttachMoneyRounded as MoneyIcon,
+  AutoFixHighRounded as InnovationIcon
+} from "@mui/icons-material";
 
 const items = [
   {
-    icon: <SettingsSuggestRoundedIcon sx={{ color: "text.secondary" }} />,
-    title: "Adaptable performance",
+    icon: <DashboardIcon sx={{ color: "text.secondary" }} />,
+    title: "Dashboard com Gráficos",
     description:
-      "Our product effortlessly adjusts to your needs, boosting efficiency and simplifying your tasks."
+      "Visualize suas despesas e poupanças em gráficos claros e interativos, para entender melhor o seu fluxo financeiro."
   },
   {
-    icon: <ConstructionRoundedIcon sx={{ color: "text.secondary" }} />,
-    title: "Built to last",
+    icon: <WalletIcon sx={{ color: "text.secondary" }} />,
+    title: "Gestão de Poupanças",
     description:
-      "Experience unmatched durability that goes above and beyond with lasting investment."
+      "Acompanhe e organize suas poupanças de forma simples e eficiente, mantendo o controlo total sobre o seu dinheiro."
   },
   {
-    icon: <ThumbUpAltRoundedIcon sx={{ color: "text.secondary" }} />,
-    title: "Great user experience",
+    icon: <MoneyIcon sx={{ color: "text.secondary" }} />,
+    title: "Controle de Despesas",
     description:
-      "Integrate our product into your routine with an intuitive and easy-to-use interface."
+      "Registe todas as suas despesas e visualize relatórios detalhados para tomar decisões financeiras mais inteligentes."
   },
   {
-    icon: <AutoFixHighRoundedIcon sx={{ color: "text.secondary" }} />,
-    title: "Innovative functionality",
+    icon: <InnovationIcon sx={{ color: "text.secondary" }} />,
+    title: "Funcionalidades Inteligentes",
     description:
-      "Stay ahead with features that set new standards, addressing your evolving needs better than the rest."
+      "Explore ferramentas inovadoras que ajudam a automatizar tarefas e otimizar o fluxo financeiro do seu negócio."
   }
 ];
 
