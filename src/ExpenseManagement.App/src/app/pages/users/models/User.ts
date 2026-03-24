@@ -9,7 +9,7 @@ export interface IUser {
 }
 
 export interface IUserTable {
-  id: string;
+  id: string | null;
   userName: string;
   fullName: string | null;
   role: string;

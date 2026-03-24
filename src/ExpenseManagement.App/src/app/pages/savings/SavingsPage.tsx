@@ -10,34 +10,35 @@ import { GridEventListener } from "@mui/x-data-grid";
 import { useLoading } from "../../context/useLoading/useLoading";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useModal } from "../../context/useModal/useModal";
-import { deleteUsers, getUsers } from "./services/UserService";
-import { IUserTable } from "./models/User";
-import UserColumns from "./components/grid/UserColumns";
+import dayjs from "dayjs";
+import { CategoryEnumPt } from "../../models/Category";
+import { deleteSavings, getSavings } from "./services/SavingService";
+import { ISavingTable } from "./models/Saving";
+import SavingColumns from "./components/grid/SavingColumns";
 
-export default function UsersPage() {
+export default function SavingsPage() {
   const navigate = useNavigate();
   const notifications = useNotifications();
   const { loading, startLoading, stopLoading } = useLoading();
   const { showError, showWarning } = useModal();
 
-  const [users, setUsers] = useState<IUserTable[]>([]);
+  const [savings, setSavings] = useState<ISavingTable[]>([]);
   const [idsToDelete, setIdsToDelete] = useState<string[]>([]);
 
   const loadData = useCallback(async () => {
     startLoading();
-    getUsers()
+    getSavings()
       .then((data) => {
-        const mapped: IUserTable[] = data.map((x) => ({
+        const mapped: ISavingTable[] = data.map((x) => ({
           ...x,
-          fullName:
-            x.firstName && x.lastName ? `${x.firstName} ${x.lastName}` : null,
-          role: x.role.name
+          category: CategoryEnumPt[x.category],
+          date: dayjs(x.date).format("DD/MM/YYYY")
         }));
-        setUsers(mapped);
+        setSavings(mapped);
         stopLoading();
       })
       .catch((e: Error) => {
-        showError(e.message, "Erro ao tentar carregar os utilizadores.");
+        showError(e.message, "Erro ao tentar carregar as poupanças.");
         stopLoading();
       });
   }, []);
@@ -53,26 +54,26 @@ export default function UsersPage() {
 
   const handleRowClick = useCallback<GridEventListener<"rowClick">>(
     ({ row }) => {
-      navigate(`/users/${row.id}`);
+      navigate(`/savings/${row.id}`);
     },
     [navigate]
   );
 
   const handleCreateClick = useCallback(() => {
-    navigate("/users/new");
+    navigate("/savings/new");
   }, [navigate]);
 
   const handleDeleteClick = useCallback(() => {
     startLoading();
-    deleteUsers(idsToDelete)
+    deleteSavings(idsToDelete)
       .then((data) => {
         const allSuccess = data.every((x) => x.success);
         if (allSuccess) {
           notifications.show(
             `${
               idsToDelete.length === 1
-                ? "Utilizador apagado"
-                : "Utilizadores apagados"
+                ? "Poupança apagada"
+                : "Poupanças apagadas"
             } com sucesso.`,
             {
               severity: "success",
@@ -82,13 +83,13 @@ export default function UsersPage() {
         } else {
           showError(
             data.map((x) => x.message).join("\n"),
-            "Houve um erro ao tentar apagar utilizadores"
+            "Houve um erro ao tentar apagar poupanças"
           );
         }
         handleRefresh();
       })
       .catch((e: Error) => {
-        showError(e.message, "Houve um erro ao tentar apagar utilizadores");
+        showError(e.message, "Houve um erro ao tentar apagar poupanças");
         stopLoading();
       });
   }, [idsToDelete]);
@@ -97,8 +98,8 @@ export default function UsersPage() {
     showWarning(
       `Tem a certeza que pretende apagar ${
         idsToDelete.length === 1
-          ? "o utilizador selecionado"
-          : "os utilizadores selecionados"
+          ? "a poupança selecionada"
+          : "as poupanças selecionadas"
       }?`,
       handleDeleteClick
     );
@@ -106,8 +107,8 @@ export default function UsersPage() {
 
   return (
     <PageContainer
-      title={"Utilizadores"}
-      breadcrumbs={[{ title: "Utilizadores" }]}
+      title={"Poupanças"}
+      breadcrumbs={[{ title: "Poupanças" }]}
       actions={
         <Stack direction="row" alignItems="center" spacing={2}>
           {idsToDelete.length > 0 && (
@@ -132,8 +133,8 @@ export default function UsersPage() {
       }
     >
       <CustomDataGrid
-        columns={UserColumns()}
-        rows={users}
+        columns={SavingColumns()}
+        rows={savings}
         loading={loading}
         handleRowClick={handleRowClick}
         handleRefresh={handleRefresh}

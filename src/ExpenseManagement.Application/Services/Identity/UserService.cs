@@ -18,10 +18,10 @@
         #endregion
 
         #region Public methods
-        public async Task<List<UserTableDTO>> GetAllUsersAsync()
+        public async Task<List<UserDTO>> GetAllUsersAsync()
         {
-            List<UserTableDTO> users = await _userManager.Users
-                .Select(x => x.ToUserTableDTO())
+            List<UserDTO> users = await _userManager.Users
+                .Select(x => x.ToUserDTO())
                 .ToListAsync();
 
             return users;

@@ -2,7 +2,7 @@
 {
     public interface IUserService
     {
-        Task<List<UserTableDTO>> GetAllUsersAsync();
+        Task<List<UserDTO>> GetAllUsersAsync();
         Task<UserDTO> GetUserByIdAsync(Guid userId);
         Task<User> GetUserByUserNameAsync(string userName);
         Task<UserDTO> AddUserAsync(UserDTO userDTO);

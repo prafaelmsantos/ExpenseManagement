@@ -25,7 +25,7 @@
         [Produces("application/json")]
         public async Task<IActionResult> GetAllUsersAsync()
         {
-            List<UserTableDTO> users = await _userService.GetAllUsersAsync();
+            List<UserDTO> users = await _userService.GetAllUsersAsync();
             return Ok(users);
         }
 

@@ -11,9 +11,10 @@ import { useLoading } from "../../context/useLoading/useLoading";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useModal } from "../../context/useModal/useModal";
 import { deleteExpenses, getExpenses } from "./services/ExpenseService";
-import { ExpenseCategoryPt, IExpenseTable } from "./models/Expense";
+import { IExpenseTable } from "./models/Expense";
 import ExpenseColumns from "./components/grid/ExpenseColumns";
 import dayjs from "dayjs";
+import { CategoryEnumPt } from "../../models/Category";
 
 export default function ExpensesPage() {
   const navigate = useNavigate();
@@ -29,10 +30,8 @@ export default function ExpensesPage() {
     getExpenses()
       .then((data) => {
         const mapped: IExpenseTable[] = data.map((x) => ({
-          id: x.id,
-          name: x.name,
-          category: ExpenseCategoryPt[x.category],
-          amount: x.amount,
+          ...x,
+          category: CategoryEnumPt[x.category],
           date: dayjs(x.date).format("DD/MM/YYYY")
         }));
         setExpenses(mapped);

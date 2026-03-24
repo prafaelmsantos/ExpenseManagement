@@ -1,11 +1,14 @@
 import {
   Dashboard as DashboardIcon,
-  People as PeopleIcon
+  People as PeopleIcon,
+  AccountBalanceWallet as WalletIcon,
+  AttachMoney as MoneyIcon
 } from "@mui/icons-material";
 import { SvgIconComponent } from "@mui/icons-material";
 
 export enum NavType {
   Home = "Início",
+  Savings = "Poupanças",
   Expenses = "Despesas",
   Users = "Utilizadores"
 }
@@ -18,6 +21,7 @@ export interface Nav {
 
 export const NavItems: Nav[] = [
   { name: NavType.Home, icon: DashboardIcon, href: "/" },
-  { name: NavType.Expenses, icon: PeopleIcon, href: "/expenses" },
+  { name: NavType.Savings, icon: WalletIcon, href: "/savings" },
+  { name: NavType.Expenses, icon: MoneyIcon, href: "/expenses" },
   { name: NavType.Users, icon: PeopleIcon, href: "/users" }
 ];

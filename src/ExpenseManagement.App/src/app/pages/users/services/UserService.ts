@@ -6,10 +6,10 @@ import {
   postDeleteData,
   putData
 } from "../../../services/BaseService";
-import { IUser, IUserTable as IUserTable } from "../models/User";
+import { IUser } from "../models/User";
 
-const getUsers = async (): Promise<IUserTable[]> =>
-  await getData<IUserTable[]>(`${BASE_API_URL}/users`);
+const getUsers = async (): Promise<IUser[]> =>
+  await getData<IUser[]>(`${BASE_API_URL}/users`);
 
 const getUserSettings = async (): Promise<IUser> =>
   await getData<IUser>(`${BASE_API_URL}/users/settings`);

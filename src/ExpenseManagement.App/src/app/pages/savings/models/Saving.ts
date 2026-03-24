@@ -1,6 +1,6 @@
 import { CategoryEnum } from "../../../models/Category";
 
-export interface IExpense {
+export interface ISaving {
   id: string | null;
   name: string;
   amount: number;
@@ -9,7 +9,7 @@ export interface IExpense {
   description: string | null;
 }
 
-export interface IExpenseTable {
+export interface ISavingTable {
   id: string | null;
   name: string;
   amount: number;
@@ -17,7 +17,7 @@ export interface IExpenseTable {
   date: string;
 }
 
-export enum ExpenseKeys {
+export enum SavingKeys {
   id = "id",
   name = "name",
   amount = "amount",

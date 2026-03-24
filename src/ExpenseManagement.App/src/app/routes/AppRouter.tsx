@@ -7,6 +7,8 @@ import UserPage from "../pages/users/UserPage";
 import UsersPage from "../pages/users/UsersPage";
 import ExpensesPage from "../pages/expenses/ExpensesPage";
 import ExpensePage from "../pages/expenses/ExpensePagex";
+import SavingsPage from "../pages/savings/SavingsPage";
+import SavingPage from "../pages/savings/SavingPage";
 
 export default function AppRouter() {
   const { user } = useAuth();
@@ -17,6 +19,11 @@ export default function AppRouter() {
           element: <Layout />,
           children: [
             { path: "/", element: <Dashboard /> },
+
+            { path: "/savings", element: <SavingsPage /> },
+            { path: "/savings/:savingId", element: <SavingPage /> },
+            { path: "/savings/:savingId/edit", element: <SavingPage /> },
+            { path: "/savings/new", element: <SavingPage /> },
 
             { path: "/expenses", element: <ExpensesPage /> },
             { path: "/expenses/:expenseId", element: <ExpensePage /> },

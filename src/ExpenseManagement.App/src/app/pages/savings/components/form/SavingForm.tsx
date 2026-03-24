@@ -8,16 +8,16 @@ import {
   Typography
 } from "@mui/material";
 import Grid from "@mui/material/GridLegacy";
-import { IExpenseSchema } from "../../services/ExpenseSchema";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import { ISavingSchema } from "../../services/SavingSchema";
 import { CategoryEnum, CategoryEnumPt } from "../../../../models/Category";
 
-export default function ExpenseForm({ disabled }: { disabled: boolean }) {
+export default function SavingForm({ disabled }: { disabled: boolean }) {
   const {
     control,
     formState: { errors }
-  } = useFormContext<IExpenseSchema>();
+  } = useFormContext<ISavingSchema>();
 
   const categoryOptions = Object.values(CategoryEnum).filter(
     (v) => typeof v === "number"
@@ -26,7 +26,7 @@ export default function ExpenseForm({ disabled }: { disabled: boolean }) {
   return (
     <Paper elevation={3} sx={{ p: 3, mt: 2 }}>
       <Typography variant="h6" gutterBottom>
-        Detalhes da Despesa
+        Detalhes da Poupança
       </Typography>
       <Divider sx={{ mb: 5 }} />
 

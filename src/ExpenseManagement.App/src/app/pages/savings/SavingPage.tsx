@@ -13,31 +13,31 @@ import useNotifications from "../../context/useNotifications/useNotifications";
 import { useLoading } from "../../context/useLoading/useLoading";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useModal } from "../../context/useModal/useModal";
-import { IExpense } from "./models/Expense";
-import {
-  createExpense,
-  deleteExpenses,
-  getExpense,
-  updateExpense
-} from "./services/ExpenseService";
-import { expenseSchema, IExpenseSchema } from "./services/ExpenseSchema";
-import ExpenseForm from "./components/form/ExpenseForm";
 import dayjs from "dayjs";
 import { CategoryEnum } from "../../models/Category";
+import { ISavingSchema, savingSchema } from "./services/SavingSchema";
+import { ISaving } from "./models/Saving";
+import {
+  createSaving,
+  deleteSavings,
+  getSaving,
+  updateSaving
+} from "./services/SavingService";
+import SavingForm from "./components/form/SavingForm";
 
-export default function ExpensePage() {
-  const baseUrl: string = "/expenses";
+export default function SavingPage() {
+  const baseUrl: string = "/savings";
 
   const navigate = useNavigate();
-  const params = useParams<{ expenseId: string }>();
-  const expenseId = params.expenseId;
+  const params = useParams<{ savingId: string }>();
+  const savingId = params.savingId;
 
   const notifications = useNotifications();
   const { startLoading, stopLoading } = useLoading();
   const { showError, showWarning } = useModal();
 
-  const methods = useForm<IExpenseSchema>({
-    resolver: zodResolver(expenseSchema),
+  const methods = useForm<ISavingSchema>({
+    resolver: zodResolver(savingSchema),
     mode: "all",
     reValidateMode: "onChange",
     shouldFocusError: true
@@ -45,7 +45,7 @@ export default function ExpensePage() {
 
   const { reset, handleSubmit } = methods;
 
-  const [expense, setExpense] = useState<IExpense>({
+  const [saving, setSaving] = useState<ISaving>({
     id: null,
     name: "",
     amount: 0,
@@ -56,12 +56,12 @@ export default function ExpensePage() {
 
   const [mode, setMode] = useState<IMode>(IMode.PREVIEW);
 
-  const matchNew = useMatch({ path: "/expenses/new", end: true });
+  const matchNew = useMatch({ path: "/savings/new", end: true });
   const matchEdit = useMatch({
-    path: "/expenses/:expenseId/edit",
+    path: "/savings/:savingId/edit",
     end: true
   });
-  const matchDetail = useMatch({ path: "/expenses/:expenseId", end: true });
+  const matchDetail = useMatch({ path: "/savings/:savingId", end: true });
 
   useEffect(() => {
     if (matchNew) setMode(IMode.ADD);
@@ -70,57 +70,57 @@ export default function ExpensePage() {
   }, [matchNew, matchEdit, matchDetail]);
 
   const loadData = useCallback(async () => {
-    if (expenseId) {
+    if (savingId) {
       startLoading();
-      getExpense(expenseId)
+      getSaving(savingId)
         .then((data) => {
-          setExpense(data);
+          setSaving(data);
           stopLoading();
         })
         .catch((e: Error) => {
           void handleClose();
-          showError(e.message, "Erro ao tentar carregar a despesa");
+          showError(e.message, "Erro ao tentar carregar a poupança");
           stopLoading();
         });
     } else if (!matchNew) {
       void handleClose();
     }
-  }, [expenseId]);
+  }, [savingId]);
 
   useEffect(() => {
     void loadData();
-  }, [expenseId]);
+  }, [savingId]);
 
   useEffect(() => {
-    void reset(expense);
-  }, [expense]);
+    void reset(saving);
+  }, [saving]);
 
   const handleClose = () => navigate(baseUrl);
 
-  const handleSumbitEdit = async (expense: IExpense) => {
+  const handleSumbitEdit = async (saving: ISaving) => {
     startLoading();
-    updateExpense(expense)
+    updateSaving(saving)
       .then(() => {
         notifications.show("Despesa atualizada com sucesso!", {
           severity: "success",
           autoHideDuration: 5000
         });
 
-        navigate(`/expenses/${expense.id}`);
+        navigate(`/savings/${saving.id}`);
         void loadData();
         stopLoading();
       })
       .catch((e: Error) => {
-        showError(e.message, "Erro ao tentar atualizar a despesa");
+        showError(e.message, "Erro ao tentar atualizar a poupança");
         stopLoading();
       });
   };
 
-  const handleSumbitAdd = async (expense: IExpense) => {
+  const handleSumbitAdd = async (saving: ISaving) => {
     startLoading();
-    createExpense(expense)
+    createSaving(saving)
       .then(() => {
-        notifications.show("Despesa criada com sucesso!", {
+        notifications.show("Poupança criada com sucesso!", {
           severity: "success",
           autoHideDuration: 5000
         });
@@ -128,73 +128,73 @@ export default function ExpensePage() {
         stopLoading();
       })
       .catch((e: Error) => {
-        showError(e.message, "Erro ao tentar criar a despesa");
+        showError(e.message, "Erro ao tentar criar a poupança");
         stopLoading();
       });
   };
 
   const handleEdit = () => {
-    console.log(expenseId);
-    navigate(`/expenses/${expenseId}/edit`);
+    console.log(savingId);
+    navigate(`/savings/${savingId}/edit`);
   };
 
   const handleRollback = () => {
-    navigate(`/expenses/${expenseId}`);
+    navigate(`/savings/${savingId}`);
     void loadData();
   };
 
   const handleDeleteClick = () => {
     startLoading();
-    deleteExpenses([expenseId ?? ""])
+    deleteSavings([savingId ?? ""])
       .then((data) => {
         const allSuccess = data.every((x) => x.success);
         if (allSuccess) {
-          notifications.show("Despesa apagada com sucesso.", {
+          notifications.show("Poupança apagada com sucesso.", {
             severity: "success",
             autoHideDuration: 5000
           });
         } else {
           showError(
             data.map((x) => x.message).join("\n"),
-            "Houve um erro ao tentar apagar a despesa"
+            "Houve um erro ao tentar apagar a poupança"
           );
         }
         void handleClose();
         stopLoading();
       })
       .catch((e: Error) => {
-        showError(e.message, "Houve um erro ao tentar apagar a despesa");
+        showError(e.message, "Houve um erro ao tentar apagar a poupança");
         stopLoading();
       });
   };
 
   const handleDeleteModal = () => {
     showWarning(
-      "Tem a certeza que pretende apagar a despesa selecionada?",
+      "Tem a certeza que pretende apagar a poupança selecionada?",
       handleDeleteClick
     );
   };
 
   const breadcrumbs: Breadcrumb[] = [
-    { title: "Despesas", path: baseUrl },
+    { title: "Poupanças", path: baseUrl },
     ...(mode === IMode.ADD
       ? [{ title: "Novo" }]
       : mode === IMode.EDIT
         ? [
-            { title: expense.id ?? "", path: `${baseUrl}/${expense.id ?? ""}` },
+            { title: saving.id ?? "", path: `${baseUrl}/${saving.id ?? ""}` },
             { title: "Editar" }
           ]
-        : [{ title: expense.id ?? "" }])
+        : [{ title: saving.id ?? "" }])
   ];
 
   return (
     <PageContainer
       title={
         mode === IMode.ADD
-          ? "Criar Despesa"
+          ? "Criar Poupança"
           : mode === IMode.EDIT
-            ? "Editar Despesa"
-            : (expense.id ?? "")
+            ? "Editar Poupança"
+            : (saving.id ?? "")
       }
       breadcrumbs={breadcrumbs}
       actions={
@@ -237,7 +237,7 @@ export default function ExpensePage() {
       }
     >
       <FormProvider {...methods}>
-        <ExpenseForm disabled={mode === IMode.PREVIEW} />
+        <SavingForm disabled={mode === IMode.PREVIEW} />
       </FormProvider>
     </PageContainer>
   );
