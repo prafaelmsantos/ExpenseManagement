@@ -99,8 +99,8 @@
             {
                 var services = scope.ServiceProvider;
 
-                await RunMigrationsAsync(services);
-                await InitialSyncAsync(services);
+                //await RunMigrationsAsync(services);
+                //await InitialSyncAsync(services);
             }
         }
 

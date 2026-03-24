@@ -81,6 +81,8 @@
                 .When(userId == default, "O Id do utilizador é invalido.")
                 .TriggerBadRequestExceptionIfExist();
 
+            userDTO.Id = userId;
+
             userDTO = await _userService.UpdateUserAsync(userDTO);
             return Ok(userDTO);
         }

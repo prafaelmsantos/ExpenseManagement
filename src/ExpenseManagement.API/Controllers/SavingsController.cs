@@ -76,6 +76,8 @@
                 .When(savingId == default, "O Id da poupança é invalido.")
                 .TriggerBadRequestExceptionIfExist();
 
+            savingDTO.Id = savingId;
+
             savingDTO = await _savingService.UpdateSavingAsync(savingDTO, userId);
             return Ok(savingDTO);
         }

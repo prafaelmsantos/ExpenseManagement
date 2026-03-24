@@ -4,25 +4,31 @@
     {
         public Guid UserId { get; private set; }
         public virtual User User { get; private set; } = null!;
+        public string Name { get; private set; } = null!;
         public decimal Amount { get; private set; }
-        public ExpenseCategory Category { get; private set; }
+        public Category Category { get; private set; }
         public DateTime Date { get; private set; }
+        public string? Description { get; private set; }
 
         protected Expense() { }
 
-        public Expense(Guid userId, decimal amount, ExpenseCategory category, DateTime date)
+        public Expense(Guid userId, string name, decimal amount, Category category, DateTime date, string? description)
         {
             UserId = userId;
+            Name = name;
             Amount = amount;
             Category = category;
             Date = date;
+            Description = description;
         }
 
-        public void Update(decimal amount, ExpenseCategory category, DateTime date)
+        public void Update(string name, decimal amount, Category category, DateTime date, string? description)
         {
+            Name = name;
             Amount = amount;
             Category = category;
             Date = date;
+            Description = description;
         }
     }
 }

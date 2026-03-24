@@ -43,8 +43,11 @@
         {
             Saving saving = new(
                 userId: userId,
+                name: savingDTO.Name,
                 amount: savingDTO.Amount,
-                date: savingDTO.Date);
+                category: savingDTO.Category,
+                date: savingDTO.Date,
+                description: savingDTO.Description);
 
             saving = await _savingRepository.AddAsync(saving, cancellationToken);
 
@@ -63,8 +66,11 @@
                 .TriggerBadRequestExceptionIfExist();
 
             saving!.Update(
+                name: savingDTO.Name,
                 amount: savingDTO.Amount,
-                date: savingDTO.Date);
+                category: savingDTO.Category,
+                date: savingDTO.Date,
+                description: savingDTO.Description);
 
             saving = await _savingRepository.UpdateAsync(saving, cancellationToken);
 

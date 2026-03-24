@@ -11,11 +11,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import { IMode } from "../../models/Mode";
 import useNotifications from "../../context/useNotifications/useNotifications";
 import { useLoading } from "../../context/useLoading/useLoading";
-
 import DeleteIcon from "@mui/icons-material/Delete";
-
 import { useModal } from "../../context/useModal/useModal";
-import { IExpense } from "./models/Expense";
+import { ExpenseCategory, IExpense } from "./models/Expense";
 import {
   createExpense,
   deleteExpenses,
@@ -43,13 +41,23 @@ export default function ExpensePage() {
     shouldFocusError: true
   });
 
-  const { reset, handleSubmit } = methods;
+  const {
+    reset,
+    handleSubmit,
+    watch,
+    formState: { errors }
+  } = methods;
+
+  console.log(watch("id"));
+  console.log(watch("category"));
+  console.log(watch("date"));
+  console.log(errors);
 
   const [expense, setExpense] = useState<IExpense>({
-    id: "",
+    id: null,
     amount: 0,
-    category: "",
-    date: new Date()
+    category: ExpenseCategory.Housing,
+    date: ""
   });
 
   const [mode, setMode] = useState<IMode>(IMode.PREVIEW);
@@ -132,6 +140,7 @@ export default function ExpensePage() {
   };
 
   const handleEdit = () => {
+    console.log(expenseId);
     navigate(`/expenses/${expenseId}/edit`);
   };
 

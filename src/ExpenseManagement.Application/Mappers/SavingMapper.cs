@@ -12,8 +12,11 @@
             return new SavingDTO()
             {
                 Id = saving.Id,
+                Name = saving.Name,
                 Amount = saving.Amount,
-                Date = saving.Date
+                Category = saving.Category,
+                Date = saving.Date,
+                Description = saving.Description
             };
         }
 

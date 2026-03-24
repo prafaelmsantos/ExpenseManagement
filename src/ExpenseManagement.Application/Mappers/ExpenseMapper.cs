@@ -12,9 +12,11 @@
             return new ExpenseDTO()
             {
                 Id = expense.Id,
+                Name = expense.Name,
                 Amount = expense.Amount,
                 Category = expense.Category,
-                Date = expense.Date
+                Date = expense.Date,
+                Description = expense.Description
             };
         }
 

@@ -1,16 +1,28 @@
 import { Controller, useFormContext } from "react-hook-form";
-import { Divider, Paper, TextField, Typography } from "@mui/material";
+import {
+  Autocomplete,
+  Divider,
+  InputAdornment,
+  Paper,
+  TextField,
+  Typography
+} from "@mui/material";
 import Grid from "@mui/material/GridLegacy";
 import { IMode } from "../../../../models/Mode";
 import { IExpenseSchema } from "../../services/ExpenseSchema";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import { ExpenseCategory, ExpenseCategoryPt } from "../../models/Expense";
 
 export default function ExpenseForm({ mode }: { mode: IMode }) {
   const {
     control,
     formState: { errors }
   } = useFormContext<IExpenseSchema>();
+
+  const categoryOptions = Object.values(ExpenseCategory).filter(
+    (v) => typeof v === "number"
+  ) as ExpenseCategory[];
 
   return (
     <Paper elevation={3} sx={{ p: 3, mt: 2 }}>
@@ -28,10 +40,22 @@ export default function ExpenseForm({ mode }: { mode: IMode }) {
             render={({ field }) => (
               <TextField
                 {...field}
+                required
                 label="Quantia"
-                fullWidth
                 type="number"
+                fullWidth
                 variant="outlined"
+                error={!!errors.amount}
+                helperText={errors.amount?.message}
+                onChange={(e) => field.onChange(Number(e.target.value))}
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start">€</InputAdornment>
+                    ),
+                    inputProps: { step: 0.1, min: 0.0 }
+                  }
+                }}
                 disabled={mode == IMode.PREVIEW}
               />
             )}
@@ -42,14 +66,24 @@ export default function ExpenseForm({ mode }: { mode: IMode }) {
           <Controller
             name="category"
             control={control}
-            defaultValue=""
+            defaultValue={ExpenseCategory.Housing}
             render={({ field }) => (
-              <TextField
+              <Autocomplete
                 {...field}
-                label="Categoria"
-                fullWidth
-                variant="outlined"
+                options={categoryOptions}
+                getOptionLabel={(option) => ExpenseCategoryPt[option]}
+                isOptionEqualToValue={(option, value) => option === value}
+                onChange={(_, value) => field.onChange(value)}
                 disabled={mode == IMode.PREVIEW}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Categoria"
+                    required={mode === IMode.ADD}
+                    error={!!errors.category}
+                    helperText={errors.category?.message}
+                  />
+                )}
               />
             )}
           />
@@ -59,13 +93,23 @@ export default function ExpenseForm({ mode }: { mode: IMode }) {
           <Controller
             name="date"
             control={control}
-            defaultValue={new Date()}
+            defaultValue=""
             render={({ field }) => (
               <DateTimePicker
+                views={["year", "month", "day"]}
                 label="Data"
                 value={field.value ? dayjs(field.value) : null}
-                onChange={(date) => field.onChange(date?.toISOString())}
+                onChange={(date) =>
+                  field.onChange(
+                    date ? date.startOf("day").toISOString() : null
+                  )
+                }
+                ampm={false}
                 disabled={mode == IMode.PREVIEW}
+                localeText={{
+                  cancelButtonLabel: "Cancelar",
+                  okButtonLabel: "Confirmar"
+                }}
               />
             )}
           />

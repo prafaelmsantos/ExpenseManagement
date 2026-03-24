@@ -6,7 +6,7 @@ import useAuth from "../context/useAuth/useAuth";
 import UserPage from "../pages/users/UserPage";
 import UsersPage from "../pages/users/UsersPage";
 import ExpensesPage from "../pages/expenses/ExpensesPage";
-import ExpensePage from "../pages/expenses/ExpensePAge";
+import ExpensePage from "../pages/expenses/ExpensePagex";
 
 export default function AppRouter() {
   const { user } = useAuth();

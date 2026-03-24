@@ -76,6 +76,8 @@
                 .When(expenseId == default, "O Id da despesa é invalido.")
                 .TriggerBadRequestExceptionIfExist();
 
+            expenseDTO.Id = expenseId;
+
             expenseDTO = await _expenseService.UpdateExpenseAsync(expenseDTO, userId);
             return Ok(expenseDTO);
         }

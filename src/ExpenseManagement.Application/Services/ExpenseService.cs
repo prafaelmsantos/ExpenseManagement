@@ -43,9 +43,11 @@
         {
             Expense expense = new(
                 userId: userId,
+                name: expenseDTO.Name,
                 amount: expenseDTO.Amount,
                 category: expenseDTO.Category,
-                date: expenseDTO.Date);
+                date: expenseDTO.Date,
+                description: expenseDTO.Description);
 
             expense = await _expenseRepository.AddAsync(expense, cancellationToken);
 
@@ -64,9 +66,11 @@
                 .TriggerBadRequestExceptionIfExist();
 
             expense!.Update(
+                name: expenseDTO.Name,
                 amount: expenseDTO.Amount,
                 category: expenseDTO.Category,
-                date: expenseDTO.Date);
+                date: expenseDTO.Date,
+                description: expenseDTO.Description);
 
             expense = await _expenseRepository.UpdateAsync(expense, cancellationToken);
 

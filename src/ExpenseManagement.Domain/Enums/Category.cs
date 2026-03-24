@@ -1,6 +1,6 @@
 ﻿namespace ExpenseManagement.Domain.Enums
 {
-    public enum ExpenseCategory
+    public enum Category
     {
         Housing = 1,
         Food = 2,

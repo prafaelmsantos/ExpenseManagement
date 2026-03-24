@@ -4,7 +4,7 @@
     {
         public Guid Id { get; set; }
         public decimal Amount { get; set; }
-        public ExpenseCategory Category { get; set; }
+        public Category Category { get; set; }
         public string Date { get; set; } = null!;
     }
 }
