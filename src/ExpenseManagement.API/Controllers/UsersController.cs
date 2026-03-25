@@ -1,6 +1,5 @@
 ﻿namespace ExpenseManagement.API.Controllers
 {
-    [Authorize(Roles = "Admin")]
     [ApiVersion("1.0", Deprecated = false)]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
@@ -20,6 +19,7 @@
         #region CRUD Methods
 
         /// <summary> Get All Users </summary>
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [Consumes("application/json")]
         [Produces("application/json")]
@@ -31,6 +31,7 @@
 
         /// <summary> Get User By Id </summary>
         /// <param name="userId"></param>
+        [Authorize(Roles = "Admin")]
         [HttpGet("{userId}")]
         [Consumes("application/json")]
         [Produces("application/json")]
@@ -46,6 +47,7 @@
         }
 
         /// <summary> Get User Settings </summary>
+        [Authorize]
         [HttpGet("settings")]
         [Consumes("application/json")]
         [Produces("application/json")]
@@ -60,6 +62,7 @@
 
         /// <summary> Create User </summary>
         /// <param name="userDTO"></param>
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [Consumes("application/json")]
         [Produces("application/json")]
@@ -72,6 +75,7 @@
         /// <summary> Update User </summary>
         /// <param name="userId"></param>
         /// <param name="userDTO"></param>
+        [Authorize(Roles = "Admin")]
         [HttpPut("{userId}")]
         [Consumes("application/json")]
         [Produces("application/json")]
@@ -87,8 +91,24 @@
             return Ok(userDTO);
         }
 
-        //// <summary> Delete Users  </summary>
+        /// <summary> Update User Password</summary>
+        /// <param name="userId"></param>
+        /// <param name="userDTO"></param>
+        [Authorize]
+        [HttpPut("password")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        public async Task<IActionResult> UpdateUserPasswordAsync([FromBody] UserPasswordDTO userPasswordDTO)
+        {
+            Guid userId = HttpContext.User.GetUserId();
+
+            UserDTO userDTO = await _userService.UpdateUserPasswordAsync(userId, userPasswordDTO);
+            return Ok(userDTO);
+        }
+
+        /// <summary> Delete Users </summary>
         /// <param name="userIds"></param>
+        [Authorize(Roles = "Admin")]
         [HttpPost("delete")]
         [Consumes("application/json")]
         [Produces("application/json")]

@@ -7,6 +7,8 @@
 	<SpaRoot>..\ExpenseManagement.App</SpaRoot>
 	<SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
 	<SpaProxyServerUrl>http://localhost:5050</SpaProxyServerUrl>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<NoWarn>1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

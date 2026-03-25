@@ -47,7 +47,7 @@
                 amount: expenseDTO.Amount,
                 category: expenseDTO.Category,
                 date: expenseDTO.Date,
-                description: expenseDTO.Description);
+                description: !string.IsNullOrWhiteSpace(expenseDTO.Description) ? expenseDTO.Description : null);
 
             expense = await _expenseRepository.AddAsync(expense, cancellationToken);
 
@@ -70,7 +70,7 @@
                 amount: expenseDTO.Amount,
                 category: expenseDTO.Category,
                 date: expenseDTO.Date,
-                description: expenseDTO.Description);
+                description: !string.IsNullOrWhiteSpace(expenseDTO.Description) ? expenseDTO.Description : null);
 
             expense = await _expenseRepository.UpdateAsync(expense, cancellationToken);
 

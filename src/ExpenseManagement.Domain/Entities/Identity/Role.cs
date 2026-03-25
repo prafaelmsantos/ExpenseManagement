@@ -9,6 +9,10 @@
 
         public Role(string name)
         {
+            Validator.New()
+                .When(string.IsNullOrWhiteSpace(name), "O nome do cargo é invalido.")
+                .TriggerBadRequestExceptionIfExist();
+
             Name = name;
         }
     }

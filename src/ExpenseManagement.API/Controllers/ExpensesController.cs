@@ -82,7 +82,7 @@
             return Ok(expenseDTO);
         }
 
-        //// <summary> Delete Expenses  </summary>
+        /// <summary> Delete Expenses </summary>
         /// <param name="expenseIds"></param>
         [HttpPost("delete")]
         [Consumes("application/json")]

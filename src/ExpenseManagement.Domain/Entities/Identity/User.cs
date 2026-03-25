@@ -16,12 +16,20 @@
 
         public User(string userName)
         {
+            Validator.New()
+                .When(string.IsNullOrWhiteSpace(userName), "O userName do utilizador é invalido.")
+                .TriggerBadRequestExceptionIfExist();
+
             Email = userName;
             UserName = userName;
         }
 
         public User(string? firstName, string? lastName, string userName)
         {
+            Validator.New()
+               .When(string.IsNullOrWhiteSpace(userName), "O userName do utilizador é invalido.")
+               .TriggerBadRequestExceptionIfExist();
+
             FirstName = firstName;
             LastName = lastName;
             Email = userName;

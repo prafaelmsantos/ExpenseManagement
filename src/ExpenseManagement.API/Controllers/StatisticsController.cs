@@ -32,6 +32,7 @@
             return Ok(yearDTO);
         }
 
+        /// <summary> Get Spark Line Chart </summary>
         [HttpGet("chart/spark/line")]
         [Consumes("application/json")]
         [Produces("application/json")]
@@ -44,7 +45,7 @@
             return Ok(sparkLineCharts);
         }
 
-        /// <summary> Get All Expenses </summary>
+        /// <summary> Get Expenses Line Chart </summary>
         /// <param name="yearDTO"></param>
         [HttpPost("expenses/chart/line")]
         [Consumes("application/json")]
@@ -58,7 +59,7 @@
             return Ok(charts);
         }
 
-        /// <summary> Get All Savings </summary>
+        /// <summary> Get Savings Line Chart </summary>
         /// <param name="yearDTO"></param>
         [HttpPost("savings/chart/line")]
         [Consumes("application/json")]
@@ -72,7 +73,7 @@
             return Ok(charts);
         }
 
-        /// <summary> Get All Expenses </summary>
+        /// <summary> Get Expenses Bar Chart </summary>
         /// <param name="yearDTO"></param>
         [HttpPost("expenses/chart/bar")]
         [Consumes("application/json")]
@@ -86,7 +87,7 @@
             return Ok(charts);
         }
 
-        /// <summary> Get All Savings </summary>
+        /// <summary> Get Savings Bar Chart </summary>
         /// <param name="yearDTO"></param>
         [HttpPost("savings/chart/bar")]
         [Consumes("application/json")]

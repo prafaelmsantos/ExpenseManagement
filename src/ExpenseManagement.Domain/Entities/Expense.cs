@@ -14,6 +14,11 @@
 
         public Expense(Guid userId, string name, decimal amount, Category category, DateTime date, string? description)
         {
+            Validator.New()
+               .When(string.IsNullOrWhiteSpace(name), "O nome da despesa é invalido.")
+               .When(amount <= 0, "A quantia da despesa é invalida.")
+               .TriggerBadRequestExceptionIfExist();
+
             UserId = userId;
             Name = name;
             Amount = amount;
@@ -24,6 +29,11 @@
 
         public void Update(string name, decimal amount, Category category, DateTime date, string? description)
         {
+            Validator.New()
+               .When(string.IsNullOrWhiteSpace(name), "O nome da despesa é invalido.")
+               .When(amount <= 0, "A quantia da despesa é invalida.")
+               .TriggerBadRequestExceptionIfExist();
+
             Name = name;
             Amount = amount;
             Category = category;

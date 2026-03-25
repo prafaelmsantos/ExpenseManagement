@@ -54,11 +54,14 @@
             User? user = await _userManager.FindByNameAsync(userDTO.UserName);
 
             Validator.New()
-               .When(user is not null, "Um utilizador com o mesmo email já existe.")
+               .When(user is not null, "Um utilizador com o mesmo userName já existe.")
                .TriggerBadRequestExceptionIfExist();
 
-            user = new(firstName: userDTO.FirstName, lastName: userDTO.LastName, userName: userDTO.UserName);
-            IdentityResult userResult = await _userManager.CreateAsync(user);
+            user = new(
+                firstName: !string.IsNullOrWhiteSpace(userDTO.FirstName) ? userDTO.FirstName : null,
+                lastName: !string.IsNullOrWhiteSpace(userDTO.LastName) ? userDTO.LastName : null,
+                userName: userDTO.UserName);
+            IdentityResult userResult = await _userManager.CreateAsync(user, password: $"{userDTO.UserName}_123456");
 
             Validator.New()
                .When(!userResult.Succeeded, "Erro ao tentar criar o utilizador.")
@@ -89,8 +92,8 @@
                 IdentityResult addRoleResult = await _userManager.AddToRoleAsync(user, _userDefaultSettings.RoleAdmin);
 
                 Validator.New()
-                   .When(!addRoleResult.Succeeded, "Erro ao tentar associar a role ao utilizador.")
-                   .TriggerBadRequestExceptionIfExist();
+                    .When(!addRoleResult.Succeeded, "Erro ao tentar associar a role ao utilizador.")
+                    .TriggerBadRequestExceptionIfExist();
             }
         }
 
@@ -98,7 +101,10 @@
         {
             User user = await GetUserByUserNameAsync(userDTO.UserName);
 
-            user.Update(firstName: userDTO.FirstName, lastName: userDTO.LastName);
+            user.Update(
+                firstName: !string.IsNullOrWhiteSpace(userDTO.FirstName) ? userDTO.FirstName : null,
+                lastName: !string.IsNullOrWhiteSpace(userDTO.LastName) ? userDTO.LastName : null);
+
             IdentityResult userResult = await _userManager.UpdateAsync(user);
 
             Validator.New()
@@ -106,6 +112,32 @@
                .TriggerBadRequestExceptionIfExist();
 
             return user.ToUserDTO();
+        }
+
+        public async Task<UserDTO> UpdateUserPasswordAsync(Guid userId, UserPasswordDTO userPasswordDTO)
+        {
+            User? user = await _userManager.FindByIdAsync(userId.ToString());
+
+            Validator.New()
+               .When(user is null, "Utilizador não encontrado.")
+               .TriggerBadRequestExceptionIfExist();
+
+            bool validPassword = await _userManager.CheckPasswordAsync(user!, userPasswordDTO.CurrentPassword);
+
+            Validator.New()
+                .When(!validPassword, "A atual palavra-passe do utilizador é inválida.")
+                .TriggerBadRequestExceptionIfExist();
+
+            IdentityResult userResult = await _userManager.ChangePasswordAsync(
+                user: user!,
+                currentPassword: userPasswordDTO.CurrentPassword,
+                newPassword: userPasswordDTO.NewPassword);
+
+            Validator.New()
+               .When(!userResult.Succeeded, "Erro ao tentar atualizar a palavra-passe do utilizador.")
+               .TriggerBadRequestExceptionIfExist();
+
+            return user!.ToUserDTO();
         }
 
         public async Task<List<BaseResponseDTO>> DeleteUsersAsync(List<Guid> userIds)

@@ -47,7 +47,7 @@
                 amount: savingDTO.Amount,
                 category: savingDTO.Category,
                 date: savingDTO.Date,
-                description: savingDTO.Description);
+                description: !string.IsNullOrWhiteSpace(savingDTO.Description) ? savingDTO.Description : null);
 
             saving = await _savingRepository.AddAsync(saving, cancellationToken);
 
@@ -70,7 +70,7 @@
                 amount: savingDTO.Amount,
                 category: savingDTO.Category,
                 date: savingDTO.Date,
-                description: savingDTO.Description);
+                description: !string.IsNullOrWhiteSpace(savingDTO.Description) ? savingDTO.Description : null);
 
             saving = await _savingRepository.UpdateAsync(saving, cancellationToken);
 
