@@ -74,7 +74,7 @@ namespace ExpenseManagement.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "expense",
+                name: "expenses",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -87,9 +87,9 @@ namespace ExpenseManagement.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_expense", x => x.id);
+                    table.PrimaryKey("PK_expenses", x => x.id);
                     table.ForeignKey(
-                        name: "FK_expense_users_user_id",
+                        name: "FK_expenses_users_user_id",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
@@ -97,7 +97,7 @@ namespace ExpenseManagement.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "saving",
+                name: "savings",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -110,9 +110,9 @@ namespace ExpenseManagement.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_saving", x => x.id);
+                    table.PrimaryKey("PK_savings", x => x.id);
                     table.ForeignKey(
-                        name: "FK_saving_users_user_id",
+                        name: "FK_savings_users_user_id",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
@@ -205,14 +205,14 @@ namespace ExpenseManagement.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_expense_id",
-                table: "expense",
+                name: "IX_expenses_id",
+                table: "expenses",
                 column: "id",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_expense_user_id",
-                table: "expense",
+                name: "IX_expenses_user_id",
+                table: "expenses",
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
@@ -228,14 +228,14 @@ namespace ExpenseManagement.Persistence.Migrations
                 filter: "[normalized_name] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_saving_id",
-                table: "saving",
+                name: "IX_savings_id",
+                table: "savings",
                 column: "id",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_saving_user_id",
-                table: "saving",
+                name: "IX_savings_user_id",
+                table: "savings",
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
@@ -270,13 +270,13 @@ namespace ExpenseManagement.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "expense");
+                name: "expenses");
 
             migrationBuilder.DropTable(
                 name: "role_claims");
 
             migrationBuilder.DropTable(
-                name: "saving");
+                name: "savings");
 
             migrationBuilder.DropTable(
                 name: "user_claims");

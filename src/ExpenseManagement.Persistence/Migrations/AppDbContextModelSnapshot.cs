@@ -64,7 +64,7 @@ namespace ExpenseManagement.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("expense", (string)null);
+                    b.ToTable("expenses", (string)null);
                 });
 
             modelBuilder.Entity("ExpenseManagement.Domain.Entities.Identity.Role", b =>
@@ -358,7 +358,7 @@ namespace ExpenseManagement.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("saving", (string)null);
+                    b.ToTable("savings", (string)null);
                 });
 
             modelBuilder.Entity("ExpenseManagement.Domain.Entities.Expense", b =>
