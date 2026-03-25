@@ -1,7 +1,7 @@
 export enum CategoryEnum {
   Housing = 1,
   Food = 2,
-  Transport = 3,
+  Transports = 3,
   Car = 4,
   Health = 5,
   Entertainment = 6,
@@ -17,29 +17,10 @@ export enum CategoryEnum {
   Other = 99
 }
 
-export const CategoryShortLabels: Record<CategoryEnum, string> = {
-  [CategoryEnum.Housing]: "Hab.",
-  [CategoryEnum.Food]: "Alim.",
-  [CategoryEnum.Transport]: "Transp.",
-  [CategoryEnum.Car]: "Carro",
-  [CategoryEnum.Health]: "Saúde",
-  [CategoryEnum.Entertainment]: "Lazer",
-  [CategoryEnum.Education]: "Educa.",
-  [CategoryEnum.Utilities]: "Serv.",
-  [CategoryEnum.Insurance]: "Seguros",
-  [CategoryEnum.Taxes]: "Impostos",
-  [CategoryEnum.Shopping]: "Compras",
-  [CategoryEnum.Travel]: "Viagem",
-  [CategoryEnum.Investments]: "Invest.",
-  [CategoryEnum.Subscriptions]: "Subs.",
-  [CategoryEnum.Gifts]: "Presentes",
-  [CategoryEnum.Other]: "Outros"
-};
-
 export const CategoryEnumPt: Record<CategoryEnum, string> = {
   [CategoryEnum.Housing]: "Habitação",
   [CategoryEnum.Food]: "Alimentação",
-  [CategoryEnum.Transport]: "Transporte",
+  [CategoryEnum.Transports]: "Transportes",
   [CategoryEnum.Car]: "Carro",
   [CategoryEnum.Health]: "Saúde",
   [CategoryEnum.Entertainment]: "Entretenimento",
@@ -48,7 +29,7 @@ export const CategoryEnumPt: Record<CategoryEnum, string> = {
   [CategoryEnum.Insurance]: "Seguros",
   [CategoryEnum.Taxes]: "Impostos",
   [CategoryEnum.Shopping]: "Compras",
-  [CategoryEnum.Travel]: "Viagem",
+  [CategoryEnum.Travel]: "Viagens",
   [CategoryEnum.Investments]: "Investimentos",
   [CategoryEnum.Subscriptions]: "Subscrições",
   [CategoryEnum.Gifts]: "Presentes",
