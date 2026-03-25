@@ -1,8 +1,18 @@
-import { Box, Grid } from "@mui/system";
+import { Box, Grid, Stack } from "@mui/system";
 import PageContainer from "../../components/PageContainer";
 import StatCard, { StatCardProps } from "./components/StatCard";
-import SessionsChart from "./components/SessionsChart";
-import PageViewsBarChart from "./components/PageViewsBarChart";
+import { useModal } from "../../context/useModal/useModal";
+import { useLoading } from "../../context/useLoading/useLoading";
+import { IChart, IYear } from "./models/Statistic";
+import { useCallback, useEffect, useState } from "react";
+import {
+  getExpensesByYears,
+  getSavingsByYears,
+  getYears
+} from "./services/StatisticService";
+import StatisticLineChart from "./components/StatisticLineChart";
+import StatisticBarChart from "./components/StatisticBarChart";
+import { Autocomplete, TextField, Typography } from "@mui/material";
 
 export default function DashboardPage() {
   const data: StatCardProps[] = [
@@ -52,8 +62,100 @@ export default function DashboardPage() {
     }
   ];
 
+  const { startLoading, stopLoading } = useLoading();
+  const { showError } = useModal();
+
+  const [year, setYear] = useState<IYear>({
+    years: []
+  });
+
+  const [selectedYear, setSelectedYear] = useState<IYear>({
+    years: [new Date().getFullYear()]
+  });
+
+  const [chartExpensesByYears, setChartExpensesByYears] = useState<IChart>({
+    labels: [],
+    series: []
+  });
+
+  const [chartSavingsByYears, setChartSavingsByYears] = useState<IChart>({
+    labels: [],
+    series: []
+  });
+
+  const loadDataGetYears = useCallback(async () => {
+    startLoading();
+    getYears()
+      .then((data) => {
+        setYear(data);
+        stopLoading();
+      })
+      .catch((e: Error) => {
+        showError(e.message, "Erro ao tentar carregar despesas por ano.");
+        stopLoading();
+      });
+  }, []);
+
+  const loadDataGetExpensesByYears = useCallback(async () => {
+    startLoading();
+    getExpensesByYears(selectedYear)
+      .then((data) => {
+        setChartExpensesByYears(data);
+        stopLoading();
+      })
+      .catch((e: Error) => {
+        showError(e.message, "Erro ao tentar carregar despesas por ano.");
+        stopLoading();
+      });
+  }, [selectedYear]);
+
+  const loadDataGetSavingsByYears = useCallback(async () => {
+    startLoading();
+    getSavingsByYears(selectedYear)
+      .then((data) => {
+        setChartSavingsByYears(data);
+        stopLoading();
+      })
+      .catch((e: Error) => {
+        showError(e.message, "Erro ao tentar carregar poupanças por ano.");
+        stopLoading();
+      });
+  }, [selectedYear]);
+
+  useEffect(() => {
+    void loadDataGetYears();
+  }, []);
+
+  useEffect(() => {
+    void loadDataGetExpensesByYears();
+    void loadDataGetSavingsByYears();
+  }, [selectedYear]);
+
   return (
     <PageContainer title={"Início"} breadcrumbs={[{ title: "Início" }]}>
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        justifyContent="space-between"
+        alignItems={{ xs: "stretch", sm: "center" }}
+        spacing={2}
+        sx={{ mb: 2 }}
+      >
+        <Typography variant="h6">Visão Geral</Typography>
+
+        <Autocomplete
+          multiple
+          disablePortal
+          options={year.years}
+          value={selectedYear.years}
+          onChange={(_, newValue) => setSelectedYear({ years: [...newValue] })}
+          disableClearable
+          size="small"
+          sx={{ minWidth: 250 }}
+          renderInput={(params) => (
+            <TextField {...params} label="Anos" placeholder="Selecionar" />
+          )}
+        />
+      </Stack>
       <Box sx={{ width: "100%", maxWidth: { sm: "100%", md: "1700px" } }}>
         <Grid
           container
@@ -67,10 +169,16 @@ export default function DashboardPage() {
             </Grid>
           ))}
           <Grid size={{ xs: 12, md: 6 }}>
-            <SessionsChart />
+            <StatisticLineChart title="Poupanças" chart={chartSavingsByYears} />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <PageViewsBarChart />
+            <StatisticLineChart title="Despesas" chart={chartExpensesByYears} />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <StatisticBarChart title="Poupanças" chart={chartSavingsByYears} />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <StatisticBarChart title="Despesas" chart={chartExpensesByYears} />
           </Grid>
         </Grid>
       </Box>

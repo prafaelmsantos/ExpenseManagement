@@ -17,6 +17,7 @@
             services.AddScoped<IInitialSyncService, InitialSyncService>();
             services.AddScoped<ISavingService, SavingService>();
             services.AddScoped<IExpenseService, ExpenseService>();
+            services.AddScoped<IStatisticService, StatisticService>();
 
             return services;
         }
