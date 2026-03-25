@@ -6,7 +6,7 @@
         {
             base.Map(entity);
 
-            entity.ToTable("saving");
+            entity.ToTable("savings");
 
             entity.Property(x => x.UserId)
                 .HasColumnName("user_id")
