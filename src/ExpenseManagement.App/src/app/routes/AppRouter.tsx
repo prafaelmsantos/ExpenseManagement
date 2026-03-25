@@ -9,45 +9,61 @@ import ExpensesPage from "../pages/expenses/ExpensesPage";
 import ExpensePage from "../pages/expenses/ExpensePagex";
 import SavingsPage from "../pages/savings/SavingsPage";
 import SavingPage from "../pages/savings/SavingPage";
+import UserSettingsPage from "../pages/user-settings/UserSettingsPage";
 
 export default function AppRouter() {
   const { user } = useAuth();
 
-  const Routes = user
-    ? [
-        {
-          element: <Layout />,
-          children: [
-            { path: "/", element: <Dashboard /> },
+  const authRoutes = [
+    { path: "/", element: <Dashboard /> },
 
-            { path: "/savings", element: <SavingsPage /> },
-            { path: "/savings/:savingId", element: <SavingPage /> },
-            { path: "/savings/:savingId/edit", element: <SavingPage /> },
-            { path: "/savings/new", element: <SavingPage /> },
+    { path: "/savings", element: <SavingsPage /> },
+    { path: "/savings/:savingId", element: <SavingPage /> },
+    { path: "/savings/:savingId/edit", element: <SavingPage /> },
+    { path: "/savings/new", element: <SavingPage /> },
 
-            { path: "/expenses", element: <ExpensesPage /> },
-            { path: "/expenses/:expenseId", element: <ExpensePage /> },
-            { path: "/expenses/:expenseId/edit", element: <ExpensePage /> },
-            { path: "/expenses/new", element: <ExpensePage /> },
+    { path: "/expenses", element: <ExpensesPage /> },
+    { path: "/expenses/:expenseId", element: <ExpensePage /> },
+    { path: "/expenses/:expenseId/edit", element: <ExpensePage /> },
+    { path: "/expenses/new", element: <ExpensePage /> },
 
-            { path: "/users", element: <UsersPage /> },
-            { path: "/users/:userId", element: <UserPage /> },
-            { path: "/users/:userId/edit", element: <UserPage /> },
-            { path: "/users/new", element: <UserPage /> },
+    { path: "/settings", element: <UserSettingsPage /> }
+  ];
 
-            { path: "*", element: <Navigate to="/" replace /> }
-          ]
-        }
-      ]
-    : [
-        {
-          element: <SignInLayout />,
-          children: [
-            { path: "/", element: <SignInLayout /> },
-            { path: "*", element: <Navigate to="/" replace /> }
-          ]
-        }
-      ];
+  const adminRoutes = [
+    { path: "/users", element: <UsersPage /> },
+    { path: "/users/:userId", element: <UserPage /> },
+    { path: "/users/:userId/edit", element: <UserPage /> },
+    { path: "/users/new", element: <UserPage /> }
+  ];
+
+  let Routes;
+  if (user) {
+    const children = [...authRoutes];
+
+    if (user.role.name.toLowerCase() === "admin") {
+      children.push(...adminRoutes);
+    }
+
+    children.push({ path: "*", element: <Navigate to="/" replace /> });
+
+    Routes = [
+      {
+        element: <Layout />,
+        children
+      }
+    ];
+  } else {
+    Routes = [
+      {
+        element: <SignInLayout />,
+        children: [
+          { path: "/", element: <SignInLayout /> },
+          { path: "*", element: <Navigate to="/" replace /> }
+        ]
+      }
+    ];
+  }
 
   return useRoutes(Routes);
 }

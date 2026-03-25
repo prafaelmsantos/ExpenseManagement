@@ -17,6 +17,25 @@ export enum CategoryEnum {
   Other = 99
 }
 
+export const CategoryShortLabels: Record<CategoryEnum, string> = {
+  [CategoryEnum.Housing]: "Hab.",
+  [CategoryEnum.Food]: "Alim.",
+  [CategoryEnum.Transport]: "Transp.",
+  [CategoryEnum.Car]: "Carro",
+  [CategoryEnum.Health]: "Saúde",
+  [CategoryEnum.Entertainment]: "Lazer",
+  [CategoryEnum.Education]: "Educa.",
+  [CategoryEnum.Utilities]: "Serv.",
+  [CategoryEnum.Insurance]: "Seguros",
+  [CategoryEnum.Taxes]: "Impostos",
+  [CategoryEnum.Shopping]: "Compras",
+  [CategoryEnum.Travel]: "Viagem",
+  [CategoryEnum.Investments]: "Invest.",
+  [CategoryEnum.Subscriptions]: "Subs.",
+  [CategoryEnum.Gifts]: "Presentes",
+  [CategoryEnum.Other]: "Outros"
+};
+
 export const CategoryEnumPt: Record<CategoryEnum, string> = {
   [CategoryEnum.Housing]: "Habitação",
   [CategoryEnum.Food]: "Alimentação",

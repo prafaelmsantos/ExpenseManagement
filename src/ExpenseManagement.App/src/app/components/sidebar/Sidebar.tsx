@@ -15,7 +15,8 @@ import {
 } from "../mixins";
 import SidebarPageItem from "./SidebarPageItem";
 import { NavItems, NavType } from "../../routes/Nav";
-import SideMenu from "./SideMenu";
+import SidebarUserPageItem from "./SidebarUserItem";
+import useAuth from "../../context/useAuth/useAuth";
 
 export interface SidebarProps {
   expanded?: boolean;
@@ -41,6 +42,13 @@ export default function Sidebar({
 
   const [isFullyExpanded, setIsFullyExpanded] = React.useState(expanded);
   const [isFullyCollapsed, setIsFullyCollapsed] = React.useState(!expanded);
+
+  const { user } = useAuth();
+
+  const isAdmin = React.useMemo(
+    () => user?.role?.name?.toLowerCase() === "admin",
+    [user]
+  );
 
   React.useEffect(() => {
     if (expanded) {
@@ -129,7 +137,13 @@ export default function Sidebar({
               height: "100%"
             }}
           >
-            {NavItems.map((item, i) => (
+            {NavItems.filter((x) => {
+              if (x.name === NavType.Users && !isAdmin) {
+                return false;
+              }
+
+              return true;
+            }).map((item, i) => (
               <SidebarPageItem
                 key={i}
                 id={item.name}
@@ -144,7 +158,11 @@ export default function Sidebar({
               />
             ))}
             <Box sx={{ mt: "auto" }}>
-              <SideMenu />
+              <SidebarUserPageItem
+                id={"Definições"}
+                href={"/settings"}
+                selected={!!matchPath(`/settings/*`, pathname)}
+              />
             </Box>
           </List>
         </Box>

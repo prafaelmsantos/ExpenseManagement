@@ -3,22 +3,27 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import { LineChart } from "@mui/x-charts/LineChart";
-import { IChart } from "../models/Statistic";
+import { IChart, StatisticLineLabels } from "../models/Statistic";
 
 interface IStatisticLineChart {
   title: string;
-  chart: IChart;
+  subtitle: string;
+  charts: IChart[];
 }
 
 export default function StatisticLineChart({
   title,
-  chart: lineChart
+  subtitle,
+  charts
 }: IStatisticLineChart) {
   return (
     <Card variant="outlined" sx={{ width: "100%" }}>
       <CardContent>
         <Typography component="h2" variant="subtitle2" gutterBottom>
           {title}
+          <Typography variant="caption" sx={{ color: "text.secondary", mx: 1 }}>
+            {subtitle}
+          </Typography>
         </Typography>
 
         <Stack
@@ -29,13 +34,16 @@ export default function StatisticLineChart({
             gap: 1
           }}
         >
-          {lineChart.series.map((x, index) => (
+          {charts.map((x, index) => (
             <Typography
               key={index}
               variant="caption"
               sx={{ color: "text.secondary" }}
             >
-              {`Total (${x.name}): €${x.amountTotal}`}
+              {`Total (${x.name}): ${x.amountTotal.toLocaleString("pt-PT", {
+                style: "currency",
+                currency: "EUR"
+              })}`}
             </Typography>
           ))}
         </Stack>
@@ -47,12 +55,12 @@ export default function StatisticLineChart({
           xAxis={[
             {
               scaleType: "point",
-              data: lineChart.labels,
+              data: StatisticLineLabels,
               height: 24
             }
           ]}
           yAxis={[{ width: 50 }]}
-          series={lineChart.series.map((x) => ({
+          series={charts.map((x) => ({
             id: x.name,
             label: x.name,
             showMark: false,

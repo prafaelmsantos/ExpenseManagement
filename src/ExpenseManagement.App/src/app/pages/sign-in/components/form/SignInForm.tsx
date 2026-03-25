@@ -1,8 +1,6 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import MuiCard from "@mui/material/Card";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
@@ -18,6 +16,10 @@ import SitemarkIcon from "../../../../components/SitemarkIcon";
 import useAuth from "../../../../context/useAuth/useAuth";
 import { IUser } from "../../../users/models/User";
 import { getUserSettings } from "../../../users/services/UserService";
+import { IconButton, InputAdornment } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useState } from "react";
+import { useNavigate } from "react-router";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -38,6 +40,8 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 export default function SignInForm() {
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
   const { startLoading, stopLoading } = useLoading();
   const { setUser } = useAuth();
   const { showError } = useModal();
@@ -61,10 +65,10 @@ export default function SignInForm() {
         localStorage.setItem("token", userToken.token);
         handleGetUserSettings();
         stopLoading();
-        //navigate(`/products/${product.id}`);
+        navigate(`/`, { replace: true });
       })
       .catch((e: Error) => {
-        showError(e.message, "Erro ao tentar entrar no sistema");
+        showError(e.message, "Erro ao tentar entrar no sistema.");
         stopLoading();
       });
   };
@@ -75,10 +79,9 @@ export default function SignInForm() {
       .then((user: IUser) => {
         setUser(user);
         stopLoading();
-        //navigate(`/products/${product.id}`);
       })
       .catch((e: Error) => {
-        showError(e.message, "Erro ao tentar entrar no sistema");
+        showError(e.message, "Erro ao tentar entrar no sistema.");
         stopLoading();
       });
   };
@@ -106,10 +109,11 @@ export default function SignInForm() {
             <TextField
               {...field}
               label="Username"
-              id="userName"
+              id="username"
               autoFocus
               fullWidth
               variant="outlined"
+              autoComplete="username"
               error={!!errors.userName}
               helperText={errors.userName?.message}
             />
@@ -124,17 +128,30 @@ export default function SignInForm() {
               {...field}
               label="Password"
               id="password"
+              autoComplete="current-password"
               fullWidth
+              type={showPassword ? "text" : "password"}
               variant="outlined"
               error={!!errors.password}
               helperText={errors.password?.message}
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }
+              }}
             />
           )}
         />
-        <FormControlLabel
-          control={<Checkbox value="remember" color="primary" />}
-          label="Remember me"
-        />
+
         <Button
           type="submit"
           fullWidth

@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace ExpenseManagement.Application.Services
+﻿namespace ExpenseManagement.Application.Services
 {
     public sealed class StatisticService : IStatisticService
     {
@@ -45,7 +43,7 @@ namespace ExpenseManagement.Application.Services
             return new YearDTO() { Years = years };
         }
 
-        public async Task<List<StatCardDTO>> GetStatisticsByCurrentMonthAsync(Guid userId, CancellationToken cancellationToken = default)
+        public async Task<List<SparkLineChartDTO>> GetSparkLineChartAsync(Guid userId, CancellationToken cancellationToken = default)
         {
             DateTime today = DateTime.UtcNow.Date;
             DateTime startDate = new(today.Year, today.Month, 1);
@@ -56,18 +54,15 @@ namespace ExpenseManagement.Application.Services
             Dictionary<DateTime, decimal> expenses = await GetExpensesByMonthAsync(today, startDate, userId, cancellationToken);
             Dictionary<DateTime, decimal> savings = await GetSavingsByMonthAsync(today, startDate, userId, cancellationToken);
 
-            List<StatCardDTO> stats = [GetStats(expenses, days), GetStats(savings, days)];
+            List<SparkLineChartDTO> stats = [GetStats(savings, days, "Poupanças"), GetStats(expenses, days, "Despesas")];
 
             return stats;
         }
 
-        public async Task<ChartDTO> GetExpensesByYearsAsync(Guid userId, List<int> years, CancellationToken cancellationToken = default)
+        public async Task<List<ChartDTO>> GetExpensesLineChartAsync(Guid userId, List<int> years, CancellationToken cancellationToken = default)
         {
-            List<DateTime> months = [.. Enumerable.Range(0, 12)
-                .Select(i => new DateTime(DateTime.UtcNow.Year, 1, 1)
-                .AddMonths(i))];
+            List<ChartDTO> charts = [];
 
-            List<LineSeriesDTO> lineSeries = [];
             foreach (var year in years)
             {
                 DateTime startDate = new(year, 1, 1);
@@ -75,23 +70,16 @@ namespace ExpenseManagement.Application.Services
 
                 Dictionary<DateTime, decimal> expenses = await GetExpensesByYearAsync(userId, startDate, endDate, cancellationToken);
 
-                lineSeries.Add(GetStats(expenses, year));
+                charts.Add(GetLineChart(expenses, year));
             }
 
-            return new ChartDTO()
-            {
-                Labels = [.. months.Select(m => m.ToString("MMM", new CultureInfo("pt-PT")))],
-                Series = lineSeries
-            };
+            return charts;
         }
 
-        public async Task<ChartDTO> GetSavingsByYearsAsync(Guid userId, List<int> years, CancellationToken cancellationToken = default)
+        public async Task<List<ChartDTO>> GetSavingsLineChartAsync(Guid userId, List<int> years, CancellationToken cancellationToken = default)
         {
-            List<DateTime> months = [.. Enumerable.Range(0, 12)
-                .Select(i => new DateTime(DateTime.UtcNow.Year, 1, 1)
-                .AddMonths(i))];
+            List<ChartDTO> charts = [];
 
-            List<LineSeriesDTO> lineSeries = [];
             foreach (var year in years)
             {
                 DateTime startDate = new(year, 1, 1);
@@ -99,15 +87,40 @@ namespace ExpenseManagement.Application.Services
 
                 Dictionary<DateTime, decimal> expenses = await GetSavingsByYearAsync(userId, startDate, endDate, cancellationToken);
 
-                lineSeries.Add(GetStats(expenses, year));
+                charts.Add(GetLineChart(expenses, year));
             }
 
-            return new ChartDTO()
-            {
-                Labels = [.. months.Select(m => m.ToString("MMM", new CultureInfo("pt-PT")))],
-                Series = lineSeries
-            };
+            return charts;
         }
+
+        public async Task<List<ChartDTO>> GetExpensesBarChartAsync(Guid userId, List<int> years, CancellationToken cancellationToken = default)
+        {
+            List<ChartDTO> charts = [];
+
+            foreach (var year in years)
+            {
+                ChartDTO lineChartDTO = await GetExpensesByCategoryAndYearAsync(userId, year, cancellationToken);
+
+                charts.Add(lineChartDTO);
+            }
+
+            return charts;
+        }
+
+        public async Task<List<ChartDTO>> GetSavingsBarChartAsync(Guid userId, List<int> years, CancellationToken cancellationToken = default)
+        {
+            List<ChartDTO> charts = [];
+
+            foreach (var year in years)
+            {
+                ChartDTO lineChartDTO = await GetSavingsByCategoryAndYearAsync(userId, year, cancellationToken);
+
+                charts.Add(lineChartDTO);
+            }
+
+            return charts;
+        }
+
         #endregion
 
         #region Private methods
@@ -153,33 +166,24 @@ namespace ExpenseManagement.Application.Services
             return grouped;
         }
 
-        private static StatCardDTO GetStats(Dictionary<DateTime, decimal> grouped, List<DateTime> days)
+        private static SparkLineChartDTO GetStats(Dictionary<DateTime, decimal> grouped, List<DateTime> days, string title)
         {
-            var data = days
-                .Select(day => grouped.TryGetValue(day, out decimal value) ? value : 0)
-                .ToList();
-
-            var labels = days
-                .Select(day => day.ToString("dd MMM", new CultureInfo("pt-PT")))
-                .ToList();
+            List<decimal> data = [.. days.Select(day => grouped.TryGetValue(day, out decimal value) ? value : 0)];
 
             int half = data.Count / 2;
 
-            var firstHalf = data.Take(half).Sum();
-            var secondHalf = data.Skip(half).Sum();
+            decimal firstHalf = data.Take(half).Sum();
+            decimal secondHalf = data.Skip(half).Sum();
 
-            var trend = secondHalf == firstHalf
+            string trend = secondHalf == firstHalf
                 ? "neutral"
                 : secondHalf > firstHalf ? "up" : "down";
 
-            var statCardDTO = new StatCardDTO()
+            SparkLineChartDTO statCardDTO = new()
             {
-                Title = "Despesas",
-                Value = data.Sum(),
-                Interval = "Mês atual",
+                Name = title,
                 Trend = trend,
                 Data = data,
-                Labels = labels
             };
 
             return statCardDTO;
@@ -223,7 +227,7 @@ namespace ExpenseManagement.Application.Services
                 );
         }
 
-        private static LineSeriesDTO GetStats(
+        private static ChartDTO GetLineChart(
             Dictionary<DateTime, decimal> grouped,
             int year)
         {
@@ -235,10 +239,53 @@ namespace ExpenseManagement.Application.Services
                 .Select(month => grouped.TryGetValue(month, out decimal value) ? value : 0)
                 .ToList();
 
-            return new LineSeriesDTO()
+            return new ChartDTO()
             {
                 Name = year.ToString(),
-                AmountTotal = Math.Round(data.Sum(), 2),
+                Data = data
+            };
+        }
+
+        private async Task<ChartDTO> GetExpensesByCategoryAndYearAsync(
+            Guid userId,
+            int year,
+            CancellationToken cancellationToken = default)
+        {
+            var expenses = await _expenseRepository
+                .GetAllQueryable()
+                .Where(x => x.Date.Year == year && x.UserId == userId)
+                .ToListAsync(cancellationToken);
+
+            List<decimal> data = [.. Enum.GetValues<Category>()
+                .Select(cat => expenses
+                .Where(e => e.Category == cat)
+                .Sum(e => e.Amount))];
+
+            return new ChartDTO()
+            {
+                Name = year.ToString(),
+                Data = data
+            };
+        }
+
+        private async Task<ChartDTO> GetSavingsByCategoryAndYearAsync(
+            Guid userId,
+            int year,
+            CancellationToken cancellationToken = default)
+        {
+            var savings = await _savingRepository
+                .GetAllQueryable()
+                .Where(x => x.Date.Year == year && x.UserId == userId)
+                .ToListAsync(cancellationToken);
+
+            List<decimal> data = [.. Enum.GetValues<Category>()
+                .Select(cat => savings
+                .Where(e => e.Category == cat)
+                .Sum(e => e.Amount))];
+
+            return new ChartDTO()
+            {
+                Name = year.ToString(),
                 Data = data
             };
         }

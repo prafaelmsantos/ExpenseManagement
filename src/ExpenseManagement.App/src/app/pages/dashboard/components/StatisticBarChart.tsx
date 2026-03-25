@@ -4,22 +4,34 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { IChart } from "../models/Statistic";
+import { CategoryEnum, CategoryEnumPt } from "../../../models/Category";
 
 interface IStatisticBarChart {
   title: string;
-  chart: IChart;
+  subtitle: string;
+  charts: IChart[];
 }
 
 export default function StatisticBarChart({
   title,
-  chart: lineChart
+  subtitle,
+  charts
 }: IStatisticBarChart) {
+  const labels = Object.values(CategoryEnum)
+    .filter((v) => typeof v === "number")
+    .sort((a, b) => (a as number) - (b as number))
+    .map((v) => CategoryEnumPt[v as CategoryEnum]);
+
   return (
     <Card variant="outlined" sx={{ width: "100%" }}>
       <CardContent>
         <Typography component="h2" variant="subtitle2" gutterBottom>
           {title}
+          <Typography variant="caption" sx={{ color: "text.secondary", mx: 1 }}>
+            {subtitle}
+          </Typography>
         </Typography>
+
         <Stack
           direction="row"
           sx={{
@@ -28,41 +40,35 @@ export default function StatisticBarChart({
             gap: 1
           }}
         >
-          {lineChart.series.map((x, index) => (
+          {charts.map((x, index) => (
             <Typography
               key={index}
               variant="caption"
               sx={{ color: "text.secondary" }}
             >
-              {`Total (${x.name}): €${x.amountTotal}`}
+              {`Total (${x.name}): ${x.amountTotal.toLocaleString("pt-PT", {
+                style: "currency",
+                currency: "EUR"
+              })}`}
             </Typography>
           ))}
         </Stack>
-
         <BarChart
-          localeText={{
-            noData: "Sem dados para exibir"
-          }}
-          borderRadius={8}
           xAxis={[
             {
               scaleType: "band",
-              categoryGapRatio: 0.5,
-              data: lineChart.labels,
-              height: 24
+              data: labels,
+              tickLabelStyle: {
+                fontSize: 10
+              }
             }
           ]}
-          yAxis={[{ width: 50 }]}
-          series={lineChart.series.map((x) => ({
+          series={charts.map((x) => ({
             id: x.name,
             label: x.name,
-            showMark: false,
-            stack: "A",
             data: x.data
           }))}
-          height={250}
-          margin={{ left: 0, right: 0, top: 20, bottom: 0 }}
-          grid={{ horizontal: true }}
+          height={300}
         />
       </CardContent>
     </Card>

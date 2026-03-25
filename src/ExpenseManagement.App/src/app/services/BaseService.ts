@@ -6,6 +6,12 @@ interface IErrorResponse {
 
 export async function getErrorMessage(response: Response): Promise<string> {
   try {
+    if (response.status === 401) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      window.location.href = "/";
+    }
+
     return (
       (await (response.json() as Promise<IErrorResponse>)).message ||
       response.statusText ||
@@ -32,18 +38,8 @@ export async function getData<T>(endpoint: string): Promise<T> {
   if (!response.ok) {
     throw new Error(await getErrorMessage(response));
   }
-  return (await response.json()) as Promise<T>;
-}
 
-export async function getPdfData(endpoint: string): Promise<Blob> {
-  const response = await fetch(endpoint, {
-    method: "GET",
-    headers: getSessionHeaders()
-  });
-  if (!response.ok) {
-    throw new Error(await getErrorMessage(response));
-  }
-  return await response.blob();
+  return (await response.json()) as Promise<T>;
 }
 
 export async function postData<A, B>(endpoint: string, body: A): Promise<B> {

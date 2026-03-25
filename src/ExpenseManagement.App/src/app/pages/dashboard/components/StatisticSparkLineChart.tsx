@@ -2,7 +2,6 @@ import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
@@ -10,7 +9,7 @@ import { areaElementClasses } from "@mui/x-charts/LineChart";
 
 export type StatCardProps = {
   title: string;
-  value: string;
+  value: number;
   interval: string;
   trend: "up" | "down" | "neutral";
   data: number[];
@@ -18,7 +17,7 @@ export type StatCardProps = {
 
 function getDaysInMonth(month: number, year: number) {
   const date = new Date(year, month, 0);
-  const monthName = date.toLocaleDateString("en-US", {
+  const monthName = date.toLocaleDateString("pt-PT", {
     month: "short"
   });
   const daysInMonth = date.getDate();
@@ -42,7 +41,7 @@ function AreaGradient({ color, id }: { color: string; id: string }) {
   );
 }
 
-export default function StatCard({
+export default function StatisticSparkLineChart({
   title,
   value,
   interval,
@@ -50,7 +49,9 @@ export default function StatCard({
   data
 }: StatCardProps) {
   const theme = useTheme();
-  const daysInWeek = getDaysInMonth(4, 2024);
+  const today = new Date();
+
+  const daysInWeek = getDaysInMonth(today.getMonth() + 1, today.getFullYear());
 
   const trendColors = {
     up:
@@ -67,15 +68,7 @@ export default function StatCard({
         : theme.palette.grey[700]
   };
 
-  const labelColors = {
-    up: "success" as const,
-    down: "error" as const,
-    neutral: "default" as const
-  };
-
-  const color = labelColors[trend];
   const chartColor = trendColors[trend];
-  const trendValues = { up: "+25%", down: "-25%", neutral: "+5%" };
 
   return (
     <Card variant="outlined" sx={{ height: "100%", flexGrow: 1 }}>
@@ -93,9 +86,11 @@ export default function StatCard({
               sx={{ justifyContent: "space-between", alignItems: "center" }}
             >
               <Typography variant="h4" component="p">
-                {value}
+                {value.toLocaleString("pt-PT", {
+                  style: "currency",
+                  currency: "EUR"
+                })}
               </Typography>
-              <Chip size="small" color={color} label={trendValues[trend]} />
             </Stack>
             <Typography variant="caption" sx={{ color: "text.secondary" }}>
               {interval}

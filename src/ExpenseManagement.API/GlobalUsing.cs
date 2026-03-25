@@ -15,6 +15,7 @@ global using ExpenseManagement.API.Extentions;
 global using ExpenseManagement.Application.Dtos;
 global using ExpenseManagement.Application.Dtos.Base.Response;
 global using ExpenseManagement.Application.Dtos.Identity;
+global using ExpenseManagement.Application.Dtos.Statistic;
 global using ExpenseManagement.Application.Interfaces.Services;
 global using ExpenseManagement.Application.Interfaces.Services.Identity;
 global using ExpenseManagement.Application.ServicesRegistry;

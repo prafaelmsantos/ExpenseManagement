@@ -1,4 +1,4 @@
-﻿namespace ExpenseManagement.Application.Dtos
+﻿namespace ExpenseManagement.Application.Dtos.Statistic
 {
     public sealed class YearDTO
     {
