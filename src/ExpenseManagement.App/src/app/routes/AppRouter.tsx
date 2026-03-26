@@ -6,7 +6,7 @@ import useAuth from "../context/useAuth/useAuth";
 import UserPage from "../pages/users/UserPage";
 import UsersPage from "../pages/users/UsersPage";
 import ExpensesPage from "../pages/expenses/ExpensesPage";
-import ExpensePage from "../pages/expenses/ExpensePagex";
+import ExpensePage from "../pages/expenses/ExpensePage";
 import SavingsPage from "../pages/savings/SavingsPage";
 import SavingPage from "../pages/savings/SavingPage";
 import UserSettingsPage from "../pages/user-settings/UserSettingsPage";
