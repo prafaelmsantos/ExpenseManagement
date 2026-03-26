@@ -19,6 +19,7 @@
             List<ExpenseDTO> expenses = await _expenseRepository
                 .GetAllQueryable()
                 .Where(x => x.UserId == userId)
+                .OrderByDescending(x => x.Date)
                 .Select(x => x.ToExpenseDTO())
                 .ToListAsync(cancellationToken);
 

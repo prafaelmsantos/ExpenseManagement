@@ -92,8 +92,7 @@
         }
 
         /// <summary> Update User Password</summary>
-        /// <param name="userId"></param>
-        /// <param name="userDTO"></param>
+        /// <param name="userPasswordDTO"></param>
         [Authorize]
         [HttpPut("password")]
         [Consumes("application/json")]
@@ -103,6 +102,20 @@
             Guid userId = HttpContext.User.GetUserId();
 
             UserDTO userDTO = await _userService.UpdateUserPasswordAsync(userId, userPasswordDTO);
+            return Ok(userDTO);
+        }
+
+        /// <summary> Update User Settings</summary>
+        /// <param name="userSettingsDTO"></param>
+        [Authorize]
+        [HttpPut("settings")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        public async Task<IActionResult> UpdateUserSettingsAsync([FromBody] UserSettingsDTO userSettingsDTO)
+        {
+            Guid userId = HttpContext.User.GetUserId();
+
+            UserDTO userDTO = await _userService.UpdateUserSettingsAsync(userId, userSettingsDTO);
             return Ok(userDTO);
         }
 

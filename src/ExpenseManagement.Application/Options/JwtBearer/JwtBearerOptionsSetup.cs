@@ -25,32 +25,14 @@
                 ValidIssuer = _jwtSettings.Issuer,
                 ValidAudience = _jwtSettings.Audience,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key)),
-                RoleClaimType = ClaimTypes.Role,
-                //ClockSkew = TimeSpan.Zero
+                RoleClaimType = ClaimTypes.Role
             };
 
             options.Events = new JwtBearerEvents()
             {
                 OnAuthenticationFailed = context =>
                 {
-                    Console.WriteLine($"Erro: {context.Exception.Message}");
-                    return Task.CompletedTask;
-                },
-                OnTokenValidated = context =>
-                {
-                    Console.WriteLine("Token válido!");
-                    return Task.CompletedTask;
-                },
-                OnChallenge = context =>
-                {
-                    Console.WriteLine("Challenge triggered");
-                    return Task.CompletedTask;
-                },
-
-                OnMessageReceived = context =>
-                {
-                    Console.WriteLine($"TOKEN RECEIVED: {context.Request.Headers["Authorization"]}");
-                    return Task.CompletedTask;
+                    throw new Exception("Autenticação falhada! Por favor volte a conectar-se ao sistema.");
                 }
             };
         }

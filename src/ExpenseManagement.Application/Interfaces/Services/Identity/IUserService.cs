@@ -9,6 +9,7 @@
         Task AddDefaultUserAsync();
         Task<UserDTO> UpdateUserAsync(UserDTO userDTO);
         Task<UserDTO> UpdateUserPasswordAsync(Guid userId, UserPasswordDTO userPasswordDTO);
+        Task<UserDTO> UpdateUserSettingsAsync(Guid userId, UserSettingsDTO userSettingsDTO);
         Task<List<BaseResponseDTO>> DeleteUsersAsync(List<Guid> userIds);
     }
 }

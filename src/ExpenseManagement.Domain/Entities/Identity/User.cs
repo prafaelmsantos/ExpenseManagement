@@ -24,20 +24,31 @@
             UserName = userName;
         }
 
-        public User(string? firstName, string? lastName, string userName)
+        public User(string userName, string? firstName, string? lastName)
         {
             Validator.New()
-               .When(string.IsNullOrWhiteSpace(userName), "O userName do utilizador é invalido.")
+               .When(string.IsNullOrWhiteSpace(userName), "O nome de utilizador é invalido.")
                .TriggerBadRequestExceptionIfExist();
+
+            Email = userName;
+            UserName = userName;
 
             FirstName = firstName;
             LastName = lastName;
-            Email = userName;
-            UserName = userName;
         }
 
         public void Update(string? firstName, string? lastName)
         {
+            FirstName = firstName;
+            LastName = lastName;
+        }
+
+        public void Update(string userName, string? firstName, string? lastName)
+        {
+            Validator.New()
+                .When(string.IsNullOrWhiteSpace(userName), "O nome de utilizador é invalido.")
+                .TriggerBadRequestExceptionIfExist();
+
             FirstName = firstName;
             LastName = lastName;
         }

@@ -1,23 +1,24 @@
 import { FormProvider, useForm } from "react-hook-form";
-import PageContainer from "../../../components/PageContainer";
 import { useMatch, useNavigate } from "react-router";
-import useNotifications from "../../../context/useNotifications/useNotifications";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  IUserPasswordSchema,
-  userPasswordSchema
-} from "../services/UserSchema";
-import { useLoading } from "../../../context/useLoading/useLoading";
-import { useModal } from "../../../context/useModal/useModal";
 import { useEffect, useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import SendIcon from "@mui/icons-material/Send";
 import CloseIcon from "@mui/icons-material/Close";
-import { IMode } from "../../../models/Mode";
-import { updateUserPassword } from "../services/UserService";
-import { IUserPassword } from "../models/User";
 import { Button } from "@mui/material";
 import UserSettingsForm from "./components/form/UserSettingsForm";
+import useNotifications from "../../../context/useNotifications/useNotifications";
+import { useLoading } from "../../../context/useLoading/useLoading";
+import { useModal } from "../../../context/useModal/useModal";
+import {
+  IUserSettingsSchema,
+  userSettingsSchema
+} from "../services/UserSchema";
+import { IMode } from "../../../models/Mode";
+import PageContainer from "../../../components/PageContainer";
+import { IUserSettings } from "../models/User";
+import { getUserSettings, updateUserSettings } from "../services/UserService";
+import useAuth from "../../../context/useAuth/useAuth";
 
 export default function UserSettingsPage() {
   const baseUrl: string = "/settings";
@@ -27,15 +28,21 @@ export default function UserSettingsPage() {
   const notifications = useNotifications();
   const { startLoading, stopLoading } = useLoading();
   const { showError } = useModal();
+  const { setUser } = useAuth();
 
-  const methods = useForm<IUserPasswordSchema>({
-    resolver: zodResolver(userPasswordSchema),
+  const methods = useForm<IUserSettingsSchema>({
+    resolver: zodResolver(userSettingsSchema),
     mode: "all",
     reValidateMode: "onChange",
     shouldFocusError: true
   });
 
   const { handleSubmit, reset } = methods;
+
+  const [userSettings, setUserSettings] = useState<IUserSettings>({
+    firstName: "",
+    lastName: ""
+  });
 
   const [mode, setMode] = useState<IMode>(IMode.PREVIEW);
 
@@ -49,34 +56,58 @@ export default function UserSettingsPage() {
     else setMode(IMode.PREVIEW);
   }, [matchEdit]);
 
-  const handleSumbitEdit = async (userPassword: IUserPassword) => {
+  const loadData = async () => {
     startLoading();
-    updateUserPassword(userPassword)
+    getUserSettings()
+      .then((data) => {
+        setUser(data);
+        setUserSettings(data);
+        stopLoading();
+      })
+      .catch((e: Error) => {
+        void handleClose();
+        showError(e.message, "Erro ao tentar carregar o utilizador");
+        stopLoading();
+      });
+  };
+
+  useEffect(() => {
+    void loadData();
+  }, []);
+
+  useEffect(() => {
+    void reset(userSettings);
+  }, [userSettings]);
+
+  const handleClose = () => {
+    navigate(baseUrl);
+  };
+
+  const handleRollback = () => {
+    navigate(baseUrl);
+    void loadData();
+  };
+
+  const handleSumbitEdit = async (userSettings: IUserSettings) => {
+    startLoading();
+    updateUserSettings(userSettings)
       .then(() => {
-        void reset({ currentPassword: "", newPassword: "" });
         notifications.show("Utilizador atualizado com sucesso!", {
           severity: "success",
           autoHideDuration: 5000
         });
         navigate(baseUrl);
+        void loadData();
         stopLoading();
       })
       .catch((e: Error) => {
-        showError(
-          e.message,
-          "Erro ao tentar atualizar a palavra-passe do utilizador."
-        );
+        showError(e.message, "Erro ao tentar atualizar o utilizador");
         stopLoading();
       });
   };
 
   const handleEdit = () => {
     navigate("/settings/edit");
-  };
-
-  const handleRollback = () => {
-    void reset({ currentPassword: "", newPassword: "" });
-    navigate(baseUrl);
   };
 
   return (

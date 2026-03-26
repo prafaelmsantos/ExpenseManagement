@@ -58,9 +58,10 @@
                .TriggerBadRequestExceptionIfExist();
 
             user = new(
+                userName: userDTO.UserName,
                 firstName: !string.IsNullOrWhiteSpace(userDTO.FirstName) ? userDTO.FirstName : null,
-                lastName: !string.IsNullOrWhiteSpace(userDTO.LastName) ? userDTO.LastName : null,
-                userName: userDTO.UserName);
+                lastName: !string.IsNullOrWhiteSpace(userDTO.LastName) ? userDTO.LastName : null);
+
             IdentityResult userResult = await _userManager.CreateAsync(user, password: $"{userDTO.UserName}_123456");
 
             Validator.New()
@@ -102,6 +103,7 @@
             User user = await GetUserByUserNameAsync(userDTO.UserName);
 
             user.Update(
+                userName: userDTO.UserName,
                 firstName: !string.IsNullOrWhiteSpace(userDTO.FirstName) ? userDTO.FirstName : null,
                 lastName: !string.IsNullOrWhiteSpace(userDTO.LastName) ? userDTO.LastName : null);
 
@@ -135,6 +137,27 @@
 
             Validator.New()
                .When(!userResult.Succeeded, "Erro ao tentar atualizar a palavra-passe do utilizador.")
+               .TriggerBadRequestExceptionIfExist();
+
+            return user!.ToUserDTO();
+        }
+
+        public async Task<UserDTO> UpdateUserSettingsAsync(Guid userId, UserSettingsDTO userSettingsDTO)
+        {
+            User? user = await _userManager.FindByIdAsync(userId.ToString());
+
+            Validator.New()
+                .When(user is null, "Utilizador não encontrado.")
+                .TriggerBadRequestExceptionIfExist();
+
+            user!.Update(
+                firstName: !string.IsNullOrWhiteSpace(userSettingsDTO.FirstName) ? userSettingsDTO.FirstName : null,
+                lastName: !string.IsNullOrWhiteSpace(userSettingsDTO.LastName) ? userSettingsDTO.LastName : null);
+
+            IdentityResult userResult = await _userManager.UpdateAsync(user);
+
+            Validator.New()
+               .When(!userResult.Succeeded, "Erro ao tentar atualizar o utilizador.")
                .TriggerBadRequestExceptionIfExist();
 
             return user!.ToUserDTO();

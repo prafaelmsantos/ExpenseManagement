@@ -19,6 +19,7 @@
             List<SavingDTO> savings = await _savingRepository
                 .GetAllQueryable()
                 .Where(x => x.UserId == userId)
+                .OrderByDescending(x => x.Date)
                 .Select(x => x.ToSavingDTO())
                 .ToListAsync(cancellationToken);
 
