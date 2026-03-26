@@ -41,6 +41,17 @@
             return user!.ToUserDTO();
         }
 
+        public async Task<UserDTO> GetUserSettingsAsync(Guid userId)
+        {
+            User? user = await _userManager.FindByIdAsync(userId.ToString());
+
+            Validator.New()
+               .When(user is null, "Utilizador não encontrado.")
+               .TriggerBadRequestExceptionIfExist();
+
+            return user!.ToUserDTO();
+        }
+
         public async Task<User> GetUserByUserNameAsync(string userName)
         {
             User? user = await _userManager.FindByNameAsync(userName);

@@ -4,6 +4,7 @@
     {
         Task<List<UserDTO>> GetAllUsersAsync();
         Task<UserDTO> GetUserByIdAsync(Guid userId);
+        Task<UserDTO> GetUserSettingsAsync(Guid userId);
         Task<User> GetUserByUserNameAsync(string userName);
         Task<UserDTO> AddUserAsync(UserDTO userDTO);
         Task AddDefaultUserAsync();

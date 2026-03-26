@@ -55,7 +55,7 @@
         {
             Guid userId = HttpContext.User.GetUserId();
 
-            UserDTO userDTO = await _userService.GetUserByIdAsync(userId);
+            UserDTO userDTO = await _userService.GetUserSettingsAsync(userId);
 
             return Ok(userDTO);
         }
