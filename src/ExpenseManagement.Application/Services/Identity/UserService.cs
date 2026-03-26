@@ -54,7 +54,7 @@
             User? user = await _userManager.FindByNameAsync(userDTO.UserName);
 
             Validator.New()
-               .When(user is not null, "Um utilizador com o mesmo userName já existe.")
+               .When(user is not null, "Um utilizador com o mesmo nome já existe.")
                .TriggerBadRequestExceptionIfExist();
 
             user = new(
