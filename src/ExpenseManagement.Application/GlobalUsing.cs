@@ -13,6 +13,7 @@ global using ExpenseManagement.Application.Options.JwtBearer;
 global using ExpenseManagement.Application.Options.UserDefault;
 global using ExpenseManagement.Application.Services;
 global using ExpenseManagement.Application.Services.Identity;
+global using ExpenseManagement.Domain.Core.Exceptions;
 global using ExpenseManagement.Domain.Core.Validators;
 global using ExpenseManagement.Domain.Entities;
 global using ExpenseManagement.Domain.Entities.Base;

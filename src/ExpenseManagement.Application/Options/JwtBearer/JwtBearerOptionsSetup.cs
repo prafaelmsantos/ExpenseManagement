@@ -32,7 +32,7 @@
             {
                 OnAuthenticationFailed = context =>
                 {
-                    throw new Exception("Autenticação falhada! Por favor volte a conectar-se ao sistema.");
+                    throw new UnauthorizedException(["Autenticação falhada! Por favor volte a conectar-se ao sistema."]);
                 }
             };
         }
