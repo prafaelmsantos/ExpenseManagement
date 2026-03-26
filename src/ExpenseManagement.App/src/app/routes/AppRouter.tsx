@@ -9,7 +9,7 @@ import ExpensesPage from "../pages/expenses/ExpensesPage";
 import ExpensePage from "../pages/expenses/ExpensePage";
 import SavingsPage from "../pages/savings/SavingsPage";
 import SavingPage from "../pages/savings/SavingPage";
-import UserSettingsPage from "../pages/user-settings/UserSettingsPage";
+import UserSettingsPage from "../pages/users/settings/UserSettingsPage";
 
 export default function AppRouter() {
   const { user } = useAuth();

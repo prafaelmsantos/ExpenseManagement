@@ -1,23 +1,23 @@
 import { FormProvider, useForm } from "react-hook-form";
-import PageContainer from "../../components/PageContainer";
+import PageContainer from "../../../components/PageContainer";
 import { useMatch, useNavigate } from "react-router";
-import useNotifications from "../../context/useNotifications/useNotifications";
+import useNotifications from "../../../context/useNotifications/useNotifications";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   IUserPasswordSchema,
   userPasswordSchema
-} from "../users/services/UserSchema";
-import { useLoading } from "../../context/useLoading/useLoading";
-import { useModal } from "../../context/useModal/useModal";
+} from "../services/UserSchema";
+import { useLoading } from "../../../context/useLoading/useLoading";
+import { useModal } from "../../../context/useModal/useModal";
 import { useEffect, useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import SendIcon from "@mui/icons-material/Send";
 import CloseIcon from "@mui/icons-material/Close";
-import { IMode } from "../../models/Mode";
-import { updateUserPassword } from "../users/services/UserService";
-import { IUserPassword } from "../users/models/User";
+import { IMode } from "../../../models/Mode";
+import { updateUserPassword } from "../services/UserService";
+import { IUserPassword } from "../models/User";
 import { Button } from "@mui/material";
-import UserSettingsForm from "./components/UserSettingsForm";
+import UserSettingsForm from "./components/form/UserSettingsForm";
 
 export default function UserSettingsPage() {
   const baseUrl: string = "/settings";

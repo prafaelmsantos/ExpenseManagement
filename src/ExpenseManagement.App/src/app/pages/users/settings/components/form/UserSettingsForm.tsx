@@ -8,8 +8,8 @@ import {
   InputAdornment,
   Paper
 } from "@mui/material";
-import { IUserPasswordSchema } from "../../users/services/UserSchema";
-import { IMode } from "../../../models/Mode";
+import { IUserPasswordSchema } from "../../../services/UserSchema";
+import { IMode } from "../../../../../models/Mode";
 import { useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
