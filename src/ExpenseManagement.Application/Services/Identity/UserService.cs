@@ -21,6 +21,7 @@
         public async Task<List<UserDTO>> GetAllUsersAsync()
         {
             List<UserDTO> users = await _userManager.Users
+                .Where(x => x.UserName != _userDefaultSettings.UserName)
                 .Select(x => x.ToUserDTO())
                 .ToListAsync();
 
@@ -29,7 +30,9 @@
 
         public async Task<UserDTO> GetUserByIdAsync(Guid userId)
         {
-            User? user = await _userManager.FindByIdAsync(userId.ToString());
+            User? user = await _userManager.Users
+                .Where(x => x.UserName != _userDefaultSettings.UserName && x.Id == userId)
+                .FirstOrDefaultAsync();
 
             Validator.New()
                .When(user is null, "Utilizador não encontrado.")
