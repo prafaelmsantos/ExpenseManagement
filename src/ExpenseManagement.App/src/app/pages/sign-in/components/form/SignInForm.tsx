@@ -107,12 +107,12 @@ export default function SignInForm() {
           render={({ field }) => (
             <TextField
               {...field}
-              label="Username"
-              id="username"
+              label="Nome de Utilizador"
+              id="userName"
               autoFocus
               fullWidth
               variant="outlined"
-              autoComplete="username"
+              autoComplete="userName"
               error={!!errors.userName}
               helperText={errors.userName?.message}
             />
@@ -125,7 +125,7 @@ export default function SignInForm() {
           render={({ field }) => (
             <TextField
               {...field}
-              label="Password"
+              label="Palavra-passe"
               id="password"
               autoComplete="current-password"
               fullWidth
