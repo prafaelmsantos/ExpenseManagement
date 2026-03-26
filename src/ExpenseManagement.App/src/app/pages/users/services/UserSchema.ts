@@ -14,3 +14,16 @@ export const userSchema = z.object({
 });
 
 export type IUserSchema = z.infer<typeof userSchema>;
+
+export const userPasswordSchema = z.object({
+  currentPassword: z
+    .string()
+    .trim()
+    .min(6, "A palavra-passe tem de ter pelo menor 6 digitos/caracteres."),
+  newPassword: z
+    .string()
+    .trim()
+    .min(6, "A palavra-passe tem de ter pelo menor 6 digitos/caracteres.")
+});
+
+export type IUserPasswordSchema = z.infer<typeof userPasswordSchema>;

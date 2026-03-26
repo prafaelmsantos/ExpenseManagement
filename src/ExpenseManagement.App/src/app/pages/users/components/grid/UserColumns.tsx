@@ -10,7 +10,7 @@ export default function UserColumns(): GridColDef<IUserTable>[] {
     },
     {
       field: UserKeys.userName,
-      headerName: "Nome do Utilizador",
+      headerName: "Nome de Utilizador",
       flex: 1,
       minWidth: 250
     },

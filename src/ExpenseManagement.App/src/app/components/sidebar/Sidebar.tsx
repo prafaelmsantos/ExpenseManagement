@@ -132,6 +132,7 @@ export default function Sidebar({
             dense
             sx={{
               padding: mini ? 0 : 0.5,
+              mt: 2,
               mb: 4,
               width: mini ? MINI_DRAWER_WIDTH : "auto",
               height: "100%"

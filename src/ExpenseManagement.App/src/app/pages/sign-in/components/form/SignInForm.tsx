@@ -9,9 +9,8 @@ import { ISignInSchema, signInSchema } from "../../services/SignInSchema";
 import { useLoading } from "../../../../context/useLoading/useLoading";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IUserLogin } from "../../models/UserLogin";
-import { postUserLogin } from "../../services/SignInService";
+import { loginUser } from "../../services/SignInService";
 import { useModal } from "../../../../context/useModal/useModal";
-import { IUserToken } from "../../models/UserToken";
 import SitemarkIcon from "../../../../components/SitemarkIcon";
 import useAuth from "../../../../context/useAuth/useAuth";
 import { IUser } from "../../../users/models/User";
@@ -60,8 +59,8 @@ export default function SignInForm() {
 
   const handleUserLogin = async (userLogin: IUserLogin) => {
     startLoading();
-    postUserLogin(userLogin)
-      .then((userToken: IUserToken) => {
+    loginUser(userLogin)
+      .then((userToken) => {
         localStorage.setItem("token", userToken.token);
         handleGetUserSettings();
         stopLoading();

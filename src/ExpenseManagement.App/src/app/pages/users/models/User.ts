@@ -8,6 +8,11 @@ export interface IUser {
   role: IRole;
 }
 
+export interface IUserPassword {
+  currentPassword: string;
+  newPassword: string;
+}
+
 export interface IUserTable {
   id: string | null;
   userName: string;

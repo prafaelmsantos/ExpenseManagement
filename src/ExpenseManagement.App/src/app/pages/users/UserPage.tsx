@@ -46,7 +46,7 @@ export default function UserPage() {
   const { reset, handleSubmit } = methods;
 
   const [user, setUser] = useState<IUser>({
-    id: "",
+    id: null,
     userName: "",
     firstName: "",
     lastName: "",

@@ -27,7 +27,8 @@ export default function AppRouter() {
     { path: "/expenses/:expenseId/edit", element: <ExpensePage /> },
     { path: "/expenses/new", element: <ExpensePage /> },
 
-    { path: "/settings", element: <UserSettingsPage /> }
+    { path: "/settings", element: <UserSettingsPage /> },
+    { path: "/settings/edit", element: <UserSettingsPage /> }
   ];
 
   const adminRoutes = [

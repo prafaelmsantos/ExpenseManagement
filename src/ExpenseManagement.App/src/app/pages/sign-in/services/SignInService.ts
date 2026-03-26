@@ -4,10 +4,10 @@ import { postData } from "../../../services/BaseService";
 import { IUserLogin } from "../models/UserLogin";
 import { IUserToken } from "../models/UserToken";
 
-const postUserLogin = async (userLogin: IUserLogin): Promise<IUserToken> =>
+const loginUser = async (userLogin: IUserLogin): Promise<IUserToken> =>
   await postData<IUserLogin, IUserToken>(
     `${BASE_API_URL}/auth/login`,
     userLogin
   );
 
-export { postUserLogin };
+export { loginUser };

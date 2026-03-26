@@ -61,7 +61,7 @@ export default function UserForm({ mode }: { mode: IMode }) {
               <TextField
                 {...field}
                 required={mode == IMode.ADD}
-                label="Nome do Utilizador"
+                label="Nome de Utilizador"
                 fullWidth
                 variant="outlined"
                 error={!!errors.userName}

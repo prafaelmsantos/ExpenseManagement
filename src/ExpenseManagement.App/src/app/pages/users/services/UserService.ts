@@ -6,7 +6,7 @@ import {
   postDeleteData,
   putData
 } from "../../../services/BaseService";
-import { IUser } from "../models/User";
+import { IUser, IUserPassword } from "../models/User";
 
 const getUsers = async (): Promise<IUser[]> =>
   await getData<IUser[]>(`${BASE_API_URL}/users`);
@@ -23,6 +23,11 @@ const createUser = async (user: IUser): Promise<IUser> =>
 const updateUser = async (user: IUser): Promise<IUser> =>
   await putData(`${BASE_API_URL}/users/${user.id}`, user);
 
+const updateUserPassword = async (
+  userPassword: IUserPassword
+): Promise<IUser> =>
+  await putData(`${BASE_API_URL}/users/password`, userPassword);
+
 const deleteUsers = async (ids: string[]): Promise<IBaseResponse[]> =>
   await postDeleteData(`${BASE_API_URL}/users/delete`, ids);
 
@@ -32,5 +37,6 @@ export {
   getUser,
   createUser,
   updateUser,
+  updateUserPassword,
   deleteUsers
 };
