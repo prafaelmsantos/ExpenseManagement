@@ -9,6 +9,7 @@ import ExpensesPage from "../pages/expenses/ExpensesPage";
 import ExpensePage from "../pages/expenses/ExpensePage";
 import SavingsPage from "../pages/savings/SavingsPage";
 import SavingPage from "../pages/savings/SavingPage";
+import UserPasswordPage from "../pages/users/password/UserPasswordPage";
 import UserSettingsPage from "../pages/users/settings/UserSettingsPage";
 
 export default function AppRouter() {
@@ -26,6 +27,9 @@ export default function AppRouter() {
     { path: "/expenses/:expenseId", element: <ExpensePage /> },
     { path: "/expenses/:expenseId/edit", element: <ExpensePage /> },
     { path: "/expenses/new", element: <ExpensePage /> },
+
+    { path: "/password", element: <UserPasswordPage /> },
+    { path: "/password/edit", element: <UserPasswordPage /> },
 
     { path: "/settings", element: <UserSettingsPage /> },
     { path: "/settings/edit", element: <UserSettingsPage /> }

@@ -13,6 +13,11 @@ export interface IUserPassword {
   newPassword: string;
 }
 
+export interface IUserSettings {
+  firstName: string | null;
+  lastName: string | null;
+}
+
 export interface IUserTable {
   id: string | null;
   userName: string;

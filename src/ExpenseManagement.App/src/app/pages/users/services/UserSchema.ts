@@ -27,3 +27,10 @@ export const userPasswordSchema = z.object({
 });
 
 export type IUserPasswordSchema = z.infer<typeof userPasswordSchema>;
+
+export const userSettingsSchema = z.object({
+  firstName: z.string().nullable(),
+  lastName: z.string().nullable()
+});
+
+export type IUserSettingsSchema = z.infer<typeof userSettingsSchema>;

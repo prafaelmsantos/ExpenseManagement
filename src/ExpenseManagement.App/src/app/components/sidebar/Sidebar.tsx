@@ -161,8 +161,10 @@ export default function Sidebar({
             <Box sx={{ mt: "auto" }}>
               <SidebarUserPageItem
                 id={"Definições"}
-                href={"/settings"}
-                selected={!!matchPath(`/settings/*`, pathname)}
+                selected={
+                  !!matchPath(`/settings/*`, pathname) ||
+                  !!matchPath(`/password/*`, pathname)
+                }
               />
             </Box>
           </List>

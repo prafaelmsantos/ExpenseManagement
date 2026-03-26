@@ -27,7 +27,6 @@ import {
 
 export interface SidebarPageItemProps {
   id: string;
-  href: string;
   action?: React.ReactNode;
   defaultExpanded?: boolean;
   expanded?: boolean;
@@ -38,7 +37,6 @@ export interface SidebarPageItemProps {
 
 export default function SidebarUserPageItem({
   id,
-  href,
   action,
   defaultExpanded = false,
   expanded = defaultExpanded,
@@ -78,8 +76,13 @@ export default function SidebarUserPageItem({
     setAnchorEl(null);
   };
 
-  const handleNavigate = () => {
-    navigate(href);
+  const handleNavigatePassword = () => {
+    navigate("/password");
+    setAnchorEl(null);
+  };
+
+  const handleNavigateSettings = () => {
+    navigate("/settings");
     setAnchorEl(null);
   };
 
@@ -141,7 +144,8 @@ export default function SidebarUserPageItem({
           }
         }}
       >
-        <MenuItem onClick={handleNavigate}>Definições</MenuItem>
+        <MenuItem onClick={handleNavigateSettings}>Definições</MenuItem>
+        <MenuItem onClick={handleNavigatePassword}>Alterar Password</MenuItem>
         <Divider />
         <MenuItem
           onClick={handleLogout}
