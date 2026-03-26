@@ -99,7 +99,7 @@ export default function Header({
                 {title ? (
                   <>
                     <Typography
-                      variant="h3"
+                      variant="h4"
                       sx={{
                         color: (theme.vars ?? theme).palette.primary.main,
                         fontWeight: "700",

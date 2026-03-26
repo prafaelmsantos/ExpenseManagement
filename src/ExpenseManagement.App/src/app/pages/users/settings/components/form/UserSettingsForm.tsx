@@ -24,7 +24,7 @@ export default function UserSettingsForm({ mode }: { mode: IMode }) {
   return (
     <Paper elevation={3} sx={{ p: 3, mt: 2 }}>
       <Typography variant="h6" gutterBottom>
-        Alterar Palavra-passe
+        Alterar palavra-passe
       </Typography>
       <Divider sx={{ mb: 5 }} />
 

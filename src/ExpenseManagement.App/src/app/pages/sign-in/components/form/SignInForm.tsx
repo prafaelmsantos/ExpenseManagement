@@ -97,69 +97,71 @@ export default function SignInForm() {
       >
         Expense Management System
       </Typography>
-      <Box
-        sx={{ display: "flex", flexDirection: "column", width: "100%", gap: 2 }}
-      >
-        <Controller
-          name="userName"
-          control={control}
-          defaultValue=""
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Nome de Utilizador"
-              id="userName"
-              autoFocus
-              fullWidth
-              variant="outlined"
-              autoComplete="userName"
-              error={!!errors.userName}
-              helperText={errors.userName?.message}
-            />
-          )}
-        />
-        <Controller
-          name="password"
-          control={control}
-          defaultValue=""
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Palavra-passe"
-              id="password"
-              autoComplete="current-password"
-              fullWidth
-              type={showPassword ? "text" : "password"}
-              variant="outlined"
-              error={!!errors.password}
-              helperText={errors.password?.message}
-              slotProps={{
-                input: {
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => setShowPassword((prev) => !prev)}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  )
-                }
-              }}
-            />
-          )}
-        />
-
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          onClick={handleSubmit(handleUserLogin)}
+      <form onSubmit={handleSubmit(handleUserLogin)}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            gap: 2
+          }}
         >
-          Iniciar sessão
-        </Button>
-      </Box>
+          <Controller
+            name="userName"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Nome de Utilizador"
+                id="userName"
+                autoFocus
+                fullWidth
+                variant="outlined"
+                autoComplete="userName"
+                error={!!errors.userName}
+                helperText={errors.userName?.message}
+              />
+            )}
+          />
+          <Controller
+            name="password"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Palavra-passe"
+                id="password"
+                autoComplete="current-password"
+                fullWidth
+                type={showPassword ? "text" : "password"}
+                variant="outlined"
+                error={!!errors.password}
+                helperText={errors.password?.message}
+                slotProps={{
+                  input: {
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => setShowPassword((prev) => !prev)}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }
+                }}
+              />
+            )}
+          />
+
+          <Button type="submit" fullWidth variant="contained">
+            Iniciar sessão
+          </Button>
+        </Box>
+      </form>
     </Card>
   );
 }
