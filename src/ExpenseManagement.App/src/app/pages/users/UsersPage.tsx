@@ -31,7 +31,10 @@ export default function UsersPage() {
           ...x,
           fullName:
             x.firstName && x.lastName ? `${x.firstName} ${x.lastName}` : null,
-          role: x.role.name === "admin" ? "Administrador" : "Utilizador"
+          role:
+            x.role.name.toLocaleLowerCase() === "admin"
+              ? "Administrador"
+              : "Utilizador"
         }));
         setUsers(mapped);
         stopLoading();
