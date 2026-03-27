@@ -54,7 +54,10 @@
             Dictionary<DateTime, decimal> expenses = await GetExpensesByMonthAsync(today, startDate, userId, cancellationToken);
             Dictionary<DateTime, decimal> savings = await GetSavingsByMonthAsync(today, startDate, userId, cancellationToken);
 
-            List<SparkLineChartDTO> stats = [GetStats(savings, days, "Poupanças"), GetStats(expenses, days, "Despesas")];
+            List<SparkLineChartDTO> stats = [
+                GetStats(savings, days, isSavings: true),
+                GetStats(expenses, days, isSavings: false)
+            ];
 
             return stats;
         }
@@ -166,23 +169,14 @@
             return grouped;
         }
 
-        private static SparkLineChartDTO GetStats(Dictionary<DateTime, decimal> grouped, List<DateTime> days, string title)
+        private static SparkLineChartDTO GetStats(Dictionary<DateTime, decimal> grouped, List<DateTime> days, bool isSavings)
         {
             List<decimal> data = [.. days.Select(day => grouped.TryGetValue(day, out decimal value) ? value : 0)];
 
-            int half = data.Count / 2;
-
-            decimal firstHalf = data.Take(half).Sum();
-            decimal secondHalf = data.Skip(half).Sum();
-
-            string trend = secondHalf == firstHalf
-                ? "neutral"
-                : secondHalf > firstHalf ? "up" : "down";
-
             SparkLineChartDTO statCardDTO = new()
             {
-                Name = title,
-                Trend = trend,
+                Name = isSavings ? "Poupanças" : "Despesas",
+                Trend = GetTrend(data, isSavings),
                 Data = data,
             };
 
@@ -289,6 +283,26 @@
                 Data = data
             };
         }
+
+        private static string GetTrend(List<decimal> data, bool isSavings)
+        {
+            int half = data.Count / 2;
+
+            decimal firstHalf = data.Take(half).Sum();
+            decimal secondHalf = data.Skip(half).Sum();
+
+            if (secondHalf == firstHalf)
+            {
+                return "neutral";
+            }
+
+
+            bool isUp = secondHalf > firstHalf;
+            return isSavings
+                ? (isUp ? "up" : "down")
+                : (isUp ? "down" : "up");
+        }
+
         #endregion
     }
 }

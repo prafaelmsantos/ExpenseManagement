@@ -7,7 +7,8 @@ import { IUserToken } from "../models/UserToken";
 const loginUser = async (userLogin: IUserLogin): Promise<IUserToken> =>
   await postData<IUserLogin, IUserToken>(
     `${BASE_API_URL}/auth/login`,
-    userLogin
+    userLogin,
+    true
   );
 
 export { loginUser };

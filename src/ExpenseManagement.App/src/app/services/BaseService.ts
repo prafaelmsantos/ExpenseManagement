@@ -4,9 +4,12 @@ interface IErrorResponse {
   message?: string;
 }
 
-export async function getErrorMessage(response: Response): Promise<string> {
+export async function getErrorMessage(
+  response: Response,
+  isLogin: boolean = false
+): Promise<string> {
   try {
-    if (response.status === 401) {
+    if (!isLogin && response.status === 401) {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       window.location.href = "/";
@@ -42,14 +45,18 @@ export async function getData<T>(endpoint: string): Promise<T> {
   return (await response.json()) as Promise<T>;
 }
 
-export async function postData<A, B>(endpoint: string, body: A): Promise<B> {
+export async function postData<A, B>(
+  endpoint: string,
+  body: A,
+  isLogin: boolean = false
+): Promise<B> {
   const response = await fetch(endpoint, {
     method: "POST",
     headers: getSessionHeaders(),
     body: JSON.stringify(body)
   });
   if (!response.ok) {
-    throw new Error(await getErrorMessage(response));
+    throw new Error(await getErrorMessage(response, isLogin));
   }
   return (await response.json()) as Promise<B>;
 }
